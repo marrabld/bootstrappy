@@ -247,24 +247,42 @@ class Model():
     def read_rrs_from_file(self, filename='../inputs/iop_files/rrs.csv'):
         self.rrs = self.bio_optical_parameters.read_sub_surface_reflectance_from_file(filename)
 
-    def opt_func(self, phi, m, d, g):
-
-        Bb =  (phi * self.bb_phi + m * self.bb_m + d * self.bb_d + self.bw)
+    def opt_func(self, ydata, phi, m, d, g):
+        Bb = (phi * self.bb_phi + m * self.bb_m + d * self.bb_d + self.bw)
         A = (phi * self.a_phi + m * self.a_m + d * self.a_d + g * self.a_g + self.aw)
 
-        return Bb / A
+        return ydata - (Bb / A)  #  Residual
 
-    def solve_opt_func(self):
+    def solve_opt_func(self, ydata):
+        guess = {}
+        opt_data = scipy.zeros_like(ydata)
+        guess['phi'] = 1  # todo, change this to kwags and set default values.
+        guess['m'] = 1
+        guess['d'] = 1
+        guess['g'] = 1
 
-        scipy.optimize.leastsq(self.opt_func())
+        for i_iter, row in enumerate(scipy.nditer(ydata)):
+            opt_data[i_iter] = scipy.optimize.leastsq(self.opt_func(),
+                                                      args=(row, guess['phi'], guess['m'], guess['d'], guess['g']))
+
+        return opt_data
 
 
     def run(self):
-
         #--------------------------------------------------#
         #  Todo : check to see if the inputs are not none
         #--------------------------------------------------#
+        outputfile = 'bb_on_a.csv'
+        self.read_bb_from_file()
+        self.read_a_from_file()
+        self.read_bw_from_file()
+        self.read_aw_from_file()
+        self.read_rrs_from_file()
 
-        for row in scipy.nditer(self.rrs):
+        data = self.solve_opt_func(self.rrs)
+
+        data.tofile(outputfile)
+
+
 
 
