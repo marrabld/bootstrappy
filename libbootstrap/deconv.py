@@ -11,6 +11,7 @@ import scipy.optimize
 import libbootstrap
 import libbootstrap.state
 import csv
+import pylab
 
 DEBUG_LEVEL = libbootstrap.state.State().debug
 lg = log.logger
@@ -33,7 +34,7 @@ class BioOpticalParameters():
         self.rrs = scipy.asarray([])
 
 
-    def build_bbp(self, x, y, wave_const=550):
+    def build_bbp(self, x, y, wave_const=550.0):
         r"""
         Builds the particle backscattering function  :math:`X(\frac{550}{\lambda})^Y`
         param: x function coefficient
@@ -44,7 +45,7 @@ class BioOpticalParameters():
         lg.info('Building b_bp spectra')
         self.b_bp = x * (wave_const / self.wavelengths) ** y
 
-    def build_a_cdom(self, g, s, wave_const=400):
+    def build_a_cdom(self, g, s, wave_const=400.0):
         r"""
         Builds the CDOM absorption function :: :math:`G \exp (-S(\lambda - 400))`
         param: g function coefficient
@@ -167,29 +168,53 @@ class BioOpticalParameters():
 
         if os.path.isfile(file_name):
             iop_reader = csv.reader(open(file_name), delimiter=',', quotechar='"')
-            wave = iop_reader.next()
-            iop = iop_reader.next()
+            wave = scipy.float32(iop_reader.next())
+            iop = scipy.zeros_like(wave)
+            for row in iop_reader:
+                iop = scipy.vstack((iop, row))
+
+            iop = scipy.float32(iop[1:, :])  # drop the first row of zeros
         else:
             lg.exception('Problem reading file :: ' + file_name)
             raise IOError
 
         try:
-            return scipy.interp(self.wavelengths, wave, iop)
+            int_iop = scipy.zeros((iop.shape[0], self.wavelengths.shape[1]))
+            for i_iter in range(0, iop.shape[0]):
+                #r = scipy.interp(self.wavelengths[0, :], wave, iop[i_iter, :])
+                int_iop[i_iter, :] = scipy.interp(self.wavelengths, wave, iop[i_iter, :])
+            return int_iop
         except IOError:
             lg.exception('Error interpolating IOP to common wavelength')
             return -1
 
     def write_b_to_file(self, file_name):
-        self._write_iop_to_file(self.b, file_name)
+        self.write_iop_to_file(self.wavelengths, self.b, file_name)
 
     def write_c_to_file(self, file_name):
-        self._write_iop_to_file(self.c, file_name)
+        self.write_iop_to_file(self.wavelengths, self.c, file_name)
 
-    def _write_iop_to_file(self, iop, file_name):
+    def write_a_to_file(self, file_name):
+        self.write_iop_to_file(self.wavelengths, self.a, file_name)
+
+    def write_bb_to_file(self, file_name):
+        self.write_iop_to_file(self.wavelengths, self.b_b, file_name)
+
+    def write_iop_to_file(self, wavelengths, iop, file_name):
         lg.info('Writing :: ' + file_name)
         f = open(file_name, 'w')
-        for i in scipy.nditer(iop):
-            f.write(str(i) + '\n')
+        for i, wave in enumerate(scipy.nditer(wavelengths)):
+            if i < self.wavelengths.shape[1] - 1:
+                f.write(str(wave) + ',')
+            else:
+                f.write(str(wave))
+        f.write('\n')
+
+        for i, _iop in enumerate(scipy.nditer(iop)):
+            if i < iop.shape[1] - 1:
+                f.write(str(_iop) + ',')
+            else:
+                f.write(str(_iop))
 
     def build_bb(self):
         lg.info('Building bb spectra')
@@ -216,11 +241,11 @@ class BioOpticalParameters():
         self.build_c()
 
 
-class Model():
-    def __init__(self):
+class OpticalModel():
+    def __init__(self, wavelengths):
         self.bb = None
         self.a = None
-        self.bio_optical_parameters = BioOpticalParameters()
+        self.bio_optical_parameters = BioOpticalParameters(wavelengths)
         self.aw = None
         self.bw = None
         self.rrs = None
@@ -239,7 +264,7 @@ class Model():
         self.a = self.bio_optical_parameters.read_a_from_file(filename)
 
     def read_bw_from_file(self, filename='../inputs/iop_files/b_water.csv'):
-        self.bw = self.bio_optical_parameters.read_pure_water_absorption_from_file(filename)
+        self.bw = self.bio_optical_parameters.read_pure_water_scattering_from_file(filename)
 
     def read_aw_from_file(self, filename='../inputs/iop_files/a_water.csv'):
         self.aw = self.bio_optical_parameters.read_pure_water_absorption_from_file(filename)
@@ -247,42 +272,186 @@ class Model():
     def read_rrs_from_file(self, filename='../inputs/iop_files/rrs.csv'):
         self.rrs = self.bio_optical_parameters.read_sub_surface_reflectance_from_file(filename)
 
-    def opt_func(self, ydata, phi, m, d, g):
+    def read_aphi_from_file(self, filename='../inputs/iop_files/aphi.csv'):
+        self.a_phi = self.bio_optical_parameters.read_aphi_from_file(filename)
+
+    def read_bbm_from_file(self, filename='../inputs/iop_files/bbm.csv'):
+        self.bb_m = self.bio_optical_parameters._read_iop_from_file(filename)
+
+    def read_bbd_from_file(self, filename='../inputs/iop_files/bbd.csv'):
+        self.bb_d = self.bio_optical_parameters._read_iop_from_file(filename)
+
+    def read_am_from_file(self, filename='../inputs/iop_files/am.csv'):
+        self.a_m = self.bio_optical_parameters._read_iop_from_file(filename)
+
+    def read_ad_from_file(self, filename='../inputs/iop_files/ad.csv'):
+        self.a_d = self.bio_optical_parameters._read_iop_from_file(filename)
+
+    def read_ag_from_file(self, filename='../inputs/iop_files/ag.csv'):
+        self.a_g = self.bio_optical_parameters._read_iop_from_file(filename)
+
+    def read_bbphi_from_file(self, filename='../inputs/iop_files/bb_phi.csv'):
+        self.bb_phi = self.bio_optical_parameters._read_iop_from_file(filename)
+
+    def read_all_iops_from_files(self, filelist=['../inputs/iop_files/bb.csv',
+                                                 '../inputs/iop_files/a.csv',
+                                                 '../inputs/iop_files/b_water.csv',
+                                                 '../inputs/iop_files/a_water.csv',
+                                                 '../inputs/iop_files/rrs.csv',
+                                                 '../inputs/iop_files/a_phi.csv',
+                                                 '../inputs/iop_files/bbm.csv',
+                                                 '../inputs/iop_files/bbd.csv',
+                                                 '../inputs/iop_files/am.csv',
+                                                 '../inputs/iop_files/ad.csv',
+                                                 '../inputs/iop_files/ag.csv',
+                                                 '../inputs/iop_files/bb_phi.csv']):
+        self.read_bb_from_file(filelist[0])
+        self.read_a_from_file(filelist[1])
+        self.read_bw_from_file(filelist[2])
+        self.read_aw_from_file(filelist[3])
+        self.read_rrs_from_file(filelist[4])
+        self.read_aphi_from_file(filelist[5])
+        self.read_bbm_from_file(filelist[6])
+        self.read_bbd_from_file(filelist[7])
+        self.read_am_from_file(filelist[8])
+        self.read_ad_from_file(filelist[9])
+        self.read_ag_from_file(filelist[10])
+        self.read_bbphi_from_file(filelist[11])
+
+    def func(self, params):
+        phi = params[0]
+        m = params[1]
+        d = params[2]
+        g = params[3]
+
         Bb = (phi * self.bb_phi + m * self.bb_m + d * self.bb_d + self.bw)
         A = (phi * self.a_phi + m * self.a_m + d * self.a_d + g * self.a_g + self.aw)
 
-        return ydata - (Bb / A)  #  Residual
+        return scipy.squeeze(Bb / A)
 
-    def solve_opt_func(self, ydata):
-        guess = {}
-        opt_data = scipy.zeros_like(ydata)
-        guess['phi'] = 1  # todo, change this to kwags and set default values.
-        guess['m'] = 1
-        guess['d'] = 1
-        guess['g'] = 1
 
-        for i_iter, row in enumerate(scipy.nditer(ydata)):
-            opt_data[i_iter] = scipy.optimize.leastsq(self.opt_func(),
-                                                      args=(row, guess['phi'], guess['m'], guess['d'], guess['g']))
+    def opt_func(self, params, ydata):
+        return_vals = self.func(params)
+
+        return scipy.squeeze(ydata - return_vals)  #  Residual
+
+    def solve_opt_func(self, ydata, **kwargs):
+        opt_data = scipy.zeros((ydata.shape[0], 4))
+        phi = kwargs.get('phi', 0.01)
+        m = kwargs.get('m', 0.01)
+        d = kwargs.get('d', 0.01)
+        g = kwargs.get('g', 0.1)
+
+        P0 = [phi, m, d, g]
+
+        for i_iter in range(0, ydata.shape[0]):
+            opt_data[i_iter, :], cov_x = scipy.optimize.leastsq(self.opt_func, P0, args=ydata[i_iter, :], full_output=0)
 
         return opt_data
 
-
-    def run(self):
+    def run(self, outputfile='results.csv', **kwargs):
         #--------------------------------------------------#
         #  Todo : check to see if the inputs are not none
         #--------------------------------------------------#
-        outputfile = 'bb_on_a.csv'
+        #outputfile = 'bb_on_a.csv'
         self.read_bb_from_file()
         self.read_a_from_file()
         self.read_bw_from_file()
         self.read_aw_from_file()
         self.read_rrs_from_file()
 
-        data = self.solve_opt_func(self.rrs)
+        data = self.solve_opt_func(self.rrs, **kwargs)
+
+        #--------------------------------------------------#
+        # Do a forward model with the inverted parameters
+        #--------------------------------------------------#
 
         data.tofile(outputfile)
 
+        with open(outputfile, 'w') as fp:
+            file_writer = csv.writer(fp, delimiter=',')
+            for row in data:
+                file_writer.writerow(row)
+
+        return data
+
+
+class McKeeModel(OpticalModel):
+    def __init__(self, wavelengths):
+        OpticalModel.__init__(self, wavelengths)
+
+    def func(self, params):
+        phi = params[0]
+        m = params[1]
+        d = params[2]
+        g = params[3]
+
+        Bb = (phi * self.bb_phi + m * self.bb_m + d * self.bb_d + self.bw)
+        A = (phi * self.a_phi + m * self.a_m + d * self.a_d + g * self.a_g + self.aw)
+
+        return scipy.squeeze(Bb / A)
+
+
+    def opt_func(self, params, ydata):
+        return_vals = self.func(params)
+
+        return scipy.squeeze(ydata - return_vals)  #  Residual
+
+
+class McKeeModelCase2(OpticalModel):
+    def __init__(self, wavelengths):
+        OpticalModel.__init__(self, wavelengths)
+
+    def func(self, params):
+        phi = params[0]
+        m = params[1]
+        d = params[2]
+        g = params[3]
+
+        Bb = (phi * self.bb_phi + m * self.bb_m + d * self.bb_d + self.bw)
+        A = (phi * self.a_phi + m * self.a_m + d * self.a_d + g * self.a_g + self.aw)
+
+        rrs = Bb / (A + Bb)
+        Rrs = (0.5 * rrs) / (1 - 1.5 * rrs)
+
+        return scipy.squeeze(Rrs)
+
+
+    def opt_func(self, params, ydata):
+        return_vals = self.func(params)
+
+        return scipy.squeeze(ydata - return_vals)  # Residual
+
+
+class BCDeep(OpticalModel):
+    def __init__(self, wavelengths):
+        OpticalModel.__init__(self, wavelengths)
+
+    def func(self, params):
+        G0_w = 0.0624
+        G1_w = 0.0524
+        G0_p = 0.0434
+        G1_p = 0.1406
+
+        phi = params[0]
+        m = params[1]
+        d = params[2]
+        g = params[3]
+
+        Bb = (phi * self.bb_phi + m * self.bb_m + d * self.bb_d + self.bw)
+        A = (phi * self.a_phi + m * self.a_m + d * self.a_d + g * self.a_g + self.aw)
+
+        k = A + Bb
+
+        Rrs = (G0_w + G1_w * (self.bw / k)) * self.bw / k + (G0_p + G1_p * (self.bb_m / k)) * (self.bb_m / k)
+
+        return scipy.squeeze(Rrs)
+
+
+    def opt_func(self, params, ydata):
+        return_vals = self.func(params)
+
+        return scipy.squeeze(ydata - return_vals)  # Residual
 
 
 
