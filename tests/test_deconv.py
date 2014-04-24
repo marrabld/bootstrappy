@@ -11,13 +11,16 @@ import pylab
 
 
 class setUp(unittest.TestCase):
-    wavelengths = scipy.asarray(
-        [410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 600, 610, 620,
-         630, 640, 650, 660, 670, 680, 690, 700, 710, 720, 730])
+    plot = True
+    #wavelengths = scipy.asarray(
+    #    [410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540, 550, 560, 570, 580, 590, 600, 610, 620,
+    #     630, 640, 650, 660, 670, 680, 690, 700, 710, 720, 730])
+    wavelengths = scipy.linspace(410, 730, 65)
     #dc = libbootstrap.deconv.OpticalModel(wavelengths)
-    dc = libbootstrap.deconv.McKeeModel(wavelengths)
+    #dc = libbootstrap.deconv.McKeeModel(wavelengths)
     #dc = libbootstrap.deconv.McKeeModelCase2(wavelengths)
     #dc = libbootstrap.deconv.BCDeep(wavelengths)
+    dc = libbootstrap.deconv.QAA(wavelengths)
 
     dc.bio_optical_parameters.build_a_cdom(1.0, 0.014)  # todo, change these to realistic values
     dc.bio_optical_parameters.write_iop_to_file(wavelengths, dc.bio_optical_parameters.a_cdom,
@@ -51,11 +54,12 @@ class setUp(unittest.TestCase):
 
     dc.read_rrs_from_file(rrs_file)
 
-    iops = dc.run(phi=1.0, d=0.01, m=0.1, g=1.0)
+    iops = dc.run(phi=0.1, d=0.01, m=0.1, g=1.0)
 
     for i_iter, row in enumerate(iops):
         print(row)
-    #    pylab.figure()
-    #    pylab.plot(wavelengths, dc.func(row))
-    #    pylab.plot(wavelengths, dc.rrs[i_iter])
-        #pylab.show()
+        if plot:
+            pylab.figure()
+            pylab.plot(wavelengths, dc.func(row))
+            pylab.plot(wavelengths, dc.rrs[i_iter])
+            pylab.show()

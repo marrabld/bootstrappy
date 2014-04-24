@@ -44,6 +44,7 @@ class BioOpticalParameters():
         """
         lg.info('Building b_bp spectra')
         self.b_bp = x * (wave_const / self.wavelengths) ** y
+        return self.b_bp
 
     def build_a_cdom(self, g, s, wave_const=400.0):
         r"""
@@ -55,6 +56,7 @@ class BioOpticalParameters():
         """
         lg.info('building CDOM absorption')
         self.a_cdom = g * scipy.exp(-s * (self.wavelengths - wave_const))
+        return self.a_cdom
 
     def read_aphi_from_file(self, file_name):
         """
@@ -366,7 +368,7 @@ class OpticalModel():
         # Do a forward model with the inverted parameters
         #--------------------------------------------------#
 
-        data.tofile(outputfile)
+        #data.tofile(outputfile)
 
         with open(outputfile, 'w') as fp:
             file_writer = csv.writer(fp, delimiter=',')
@@ -453,5 +455,212 @@ class BCDeep(OpticalModel):
 
         return scipy.squeeze(ydata - return_vals)  # Residual
 
+
+class QAA(OpticalModel):
+    def __init__(self, wavelengths):
+        """
+
+
+        :type wavelengths: list
+        :param wavelengths:
+        """
+        OpticalModel.__init__(self, wavelengths)
+        self.g0 = 0.0895
+        self.g1 = 0.1237
+        self.s = 0.015
+        self.wavelengths = scipy.asarray(wavelengths)
+
+    def calc_rrs(self, Rrs):
+        """
+
+        """
+        return Rrs / (0.52 + 1.7 * Rrs)
+
+    def calc_u(self, rrs):
+        """
+
+        """
+        return (-self.g0 + (self.g0 ** 2 + 4 * self.g1 * rrs) ** (1 / 2)) / 2 * self.g1
+
+    def calc_a555(self, rrs440, rrs555):
+        """
+
+
+        :param a440:
+        :param rrs440:
+        :param rrs555:
+        """
+
+        rho = scipy.log(rrs440 / rrs555)
+        a440 = scipy.exp(-2.0 - 1.4 * rho + 0.2 * rho ** 2)
+        a555 = 0.0596 + 0.2 * (a440 - 0.01)
+
+        return a555
+
+    def calc_bbp555(self, u555, a555, bbw555):
+        """
+
+
+        :param u555:
+        :param a555:
+        :param bbw555:
+        """
+        return ((u555 * a555) / (1.0 - u555)) - bbw555
+
+    def calc_y(self, rrs440, rrs555):
+        """
+
+
+        :param rrs440:
+        :param rrs555:
+        """
+        return 2.2 * (1 - 1.2 * scipy.exp(-0.9 * (rrs440 / rrs555)))
+
+    def calc_bbp(self, bbp555, y):
+        """
+
+
+        :param bbp555:
+        :param y:
+        """
+        return bbp555 * (555.0 / self.wavelengths) ** y
+
+    def calc_a(self, u, bbw, bbp):
+        """
+
+
+        :param u:
+        :param bbw:
+        :param bbp:
+        """
+        return ((1 - u) * (bbw + bbp)) / u
+
+    def calc_zeta(self, rrs440, rrs555):
+        """
+
+        :param rrs440:
+        :param rrs555:
+        """
+        return 0.71 + (0.06 / (0.8 - (rrs440 / rrs555)))
+
+    def calc_ksi(self):
+        """
+
+        """
+        return scipy.exp(self.s * (440.0 - 410.0))
+
+    def calc_ag440(self, a410, zeta, a440, ksi, aw410, aw440):
+        """
+
+        :param aw440:
+        :param aw410:
+        :param a410:
+        :param zeta:
+        :param a440:
+        :param ksi:
+        """
+
+        val1 = (a410 - zeta * a440) / (ksi - zeta)
+        val2 = (aw410 - zeta * aw440) / (ksi - zeta)
+
+        return val1 - val2
+
+
+    def calc_aphi440(self, a440, ag440, aw440):
+        """
+
+
+        :param a440:
+        :param ag440:
+        :param aw440:
+        """
+
+        return a440 - ag440 - aw440
+
+    def func(self, params):
+        """
+        For doing the forward model
+        """
+        aphi440 = params[0]
+        ag440 = params[1]
+        bbp555 = params[2]
+        y = params[3]
+
+        G0_w = 0.0624
+        G1_w = 0.0524
+        G0_p = 0.0434
+        G1_p = 0.1406
+
+        self.read_aw_from_file()
+        self.read_bw_from_file()
+
+        aphi = self.a_phi * aphi440
+        ag = self.bio_optical_parameters.build_a_cdom(ag440, self.s, wave_const=440)
+        bbp = self.bio_optical_parameters.build_bbp(bbp555, y, wave_const=555)
+
+        a = self.aw + aphi + ag
+        bb = self.bw + bbp
+        u = bb / (a + bb)
+        rrs = self.g0 * u + self.g1 * u ** 2
+        rrs = 0.5 * rrs / (1 - 1.5 * rrs)
+
+        #k = a + bb
+
+        #Rrs = (G0_w + G1_w * (self.bw / k)) * self.bw / k + (G0_p + G1_p * (self.bb_m / k)) * (self.bb_m / k)
+        return scipy.squeeze(rrs)
+
+
+    def run(self, outputfile='results.csv', **kwargs):
+        """
+
+        :param outputfile:
+        :param kwargs:
+        """
+
+        self.read_rrs_from_file()
+        self.read_aw_from_file()
+        self.read_bw_from_file()
+
+        params = scipy.zeros((self.rrs.shape[0], 4))
+
+        for i_iter in range(0, self.rrs.shape[0]):
+            rrs = self.calc_rrs(self.rrs)[i_iter, :]  #  Todo, do this in a loop
+
+            idx410 = scipy.where(self.wavelengths == 410)[0]
+            idx440 = scipy.where(self.wavelengths == 440)[0]
+            idx555 = scipy.where(self.wavelengths == 555)[0]
+
+            rrs440 = rrs[idx440]
+            rrs555 = rrs[idx555]  # Todo Check for wave 555 in self.wavelengths
+            bbw555 = self.bw[0, idx555]
+            aw410 = self.aw[0, idx410]
+            aw440 = self.aw[0, idx440]
+
+            u = self.calc_u(rrs)
+            u555 = u[idx555]
+
+            a555 = self.calc_a555(rrs440, rrs555)
+            bbp555 = self.calc_bbp555(u555, a555, bbw555)
+            y = self.calc_y(rrs440, rrs555)
+            bbp = self.calc_bbp(bbp555, y)
+            a = self.calc_a(u, self.bw, bbp)
+
+            a410 = a[0, idx410]
+            a440 = a[0, idx440]
+
+            zeta = self.calc_zeta(rrs440, rrs555)
+            ksi = self.calc_ksi()
+            ag440 = self.calc_ag440(a410, zeta, a440, ksi, aw410, aw440)
+            aphi440 = self.calc_aphi440(a440, ag440, aw440)
+
+            params[i_iter, :] = [aphi440, ag440, bbp555, y]
+
+        with open(outputfile, 'w') as fp:
+            file_writer = csv.writer(fp, delimiter=',')
+            fp.write('aphi440, ag440, bbp555, y \n')
+            for row in params:
+                file_writer.writerow(row)
+
+        return params
 
 
