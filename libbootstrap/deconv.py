@@ -12,6 +12,7 @@ import libbootstrap
 import libbootstrap.state
 import csv
 import pylab
+import scipy.sparse.linalg
 
 DEBUG_LEVEL = libbootstrap.state.State().debug
 lg = log.logger
@@ -24,6 +25,7 @@ class BioOpticalParameters():
         self.b_bp = scipy.asarray([])
         self.a_cdom = scipy.asarray([])
         self.a_phi = scipy.asarray([])
+        self.bb_phi = scipy.asarray([])
         self.a_water = scipy.asarray([])
         self.b_water = scipy.asarray([])
 
@@ -46,9 +48,9 @@ class BioOpticalParameters():
         self.b_bp = x * (wave_const / self.wavelengths) ** y
         return self.b_bp
 
-    def build_a_cdom(self, g, s, wave_const=400.0):
+    def build_a_cdom(self, g, s, wave_const=440.0):
         r"""
-        Builds the CDOM absorption function :: :math:`G \exp (-S(\lambda - 400))`
+        Builds the CDOM absorption function :: :math:`G \exp (-S(\lambda - 440))`
         param: g function coefficient
         param: s slope factor
         param: wave constant
@@ -70,6 +72,19 @@ class BioOpticalParameters():
             self.a_phi = -1
 
         return self.a_phi
+
+    def read_bbphi_from_file(self, file_name):
+        """
+
+        """
+        lg.info('Reading bhpi absorption')
+        try:
+            self.bb_phi = self._read_iop_from_file(file_name)
+        except:
+            lg.exception('Problem reading file :: ' + file_name)
+            self.bb_phi = -1
+
+        return self.bb_phi
 
     def read_b_from_file(self, file_name):
         """
@@ -117,6 +132,16 @@ class BioOpticalParameters():
         lg.info('Scaling a_phi by :: ' + str(scale_paraemter))
         try:
             self.a_phi = self.a_phi * scale_paraemter
+        except:
+            lg.exception("Can't scale a_phi, check that it has been defined ")
+
+    def scale_bbphi(self, scale_paraemter):
+        """
+
+        """
+        lg.info('Scaling bb_phi by :: ' + str(scale_paraemter))
+        try:
+            self.bb_phi = self.bb_phi * scale_paraemter
         except:
             lg.exception("Can't scale a_phi, check that it has been defined ")
 
@@ -183,7 +208,7 @@ class BioOpticalParameters():
         try:
             int_iop = scipy.zeros((iop.shape[0], self.wavelengths.shape[1]))
             for i_iter in range(0, iop.shape[0]):
-                #r = scipy.interp(self.wavelengths[0, :], wave, iop[i_iter, :])
+                # r = scipy.interp(self.wavelengths[0, :], wave, iop[i_iter, :])
                 int_iop[i_iter, :] = scipy.interp(self.wavelengths, wave, iop[i_iter, :])
             return int_iop
         except IOError:
@@ -220,7 +245,7 @@ class BioOpticalParameters():
 
     def build_bb(self):
         lg.info('Building bb spectra')
-        self.b_b = self.b_bp + self.b_water
+        self.b_b = self.b_bp + self.b_water + self.bb_phi
 
     def build_b(self, scattering_fraction=0.2):
         lg.info('Building b with scattering fraction of :: ' + str(scattering_fraction))
@@ -239,7 +264,7 @@ class BioOpticalParameters():
 
         self.build_a()
         self.build_bb()
-        self.build_b()
+        # self.build_b()
         self.build_c()
 
 
@@ -263,6 +288,9 @@ class OpticalModel():
         self.bb = self.bio_optical_parameters.read_bb_from_file(filename)
 
     def read_a_from_file(self, filename='../inputs/iop_files/a.csv'):
+        self.a = self.bio_optical_parameters.read_a_from_file(filename)
+
+    def read_b_from_file(self, filename='../inputs/iop_files/b.csv'):
         self.a = self.bio_optical_parameters.read_a_from_file(filename)
 
     def read_bw_from_file(self, filename='../inputs/iop_files/b_water.csv'):
@@ -293,7 +321,7 @@ class OpticalModel():
         self.a_g = self.bio_optical_parameters._read_iop_from_file(filename)
 
     def read_bbphi_from_file(self, filename='../inputs/iop_files/bb_phi.csv'):
-        self.bb_phi = self.bio_optical_parameters._read_iop_from_file(filename)
+        self.bb_phi = self.bio_optical_parameters.read_bbphi_from_file(filename)
 
     def read_all_iops_from_files(self, filelist=['../inputs/iop_files/bb.csv',
                                                  '../inputs/iop_files/a.csv',
@@ -306,7 +334,8 @@ class OpticalModel():
                                                  '../inputs/iop_files/am.csv',
                                                  '../inputs/iop_files/ad.csv',
                                                  '../inputs/iop_files/ag.csv',
-                                                 '../inputs/iop_files/bb_phi.csv']):
+                                                 '../inputs/iop_files/bb_phi.csv',
+                                                 '../inputs/iop_files/bb.csv']):
         self.read_bb_from_file(filelist[0])
         self.read_a_from_file(filelist[1])
         self.read_bw_from_file(filelist[2])
@@ -319,6 +348,7 @@ class OpticalModel():
         self.read_ad_from_file(filelist[9])
         self.read_ag_from_file(filelist[10])
         self.read_bbphi_from_file(filelist[11])
+        self.read_bb_from_file(filelist[12])
 
     def func(self, params):
         phi = params[0]
@@ -335,7 +365,7 @@ class OpticalModel():
     def opt_func(self, params, ydata):
         return_vals = self.func(params)
 
-        return scipy.squeeze(ydata - return_vals)  #  Residual
+        return scipy.squeeze(ydata - return_vals)  # Residual
 
     def solve_opt_func(self, ydata, **kwargs):
         opt_data = scipy.zeros((ydata.shape[0], 4))
@@ -352,7 +382,7 @@ class OpticalModel():
         return opt_data
 
     def run(self, outputfile='results.csv', **kwargs):
-        #--------------------------------------------------#
+        # --------------------------------------------------#
         #  Todo : check to see if the inputs are not none
         #--------------------------------------------------#
         #outputfile = 'bb_on_a.csv'
@@ -397,7 +427,97 @@ class McKeeModel(OpticalModel):
     def opt_func(self, params, ydata):
         return_vals = self.func(params)
 
-        return scipy.squeeze(ydata - return_vals)  #  Residual
+        return scipy.squeeze(ydata - return_vals)  # Residual
+
+
+class BootStrapMethod(OpticalModel):
+    def __init__(self, wavelengths):
+        OpticalModel.__init__(self, wavelengths)
+
+    def func(self, params):
+        pass  # a =
+
+    def run(self, num_bootstraps=10, method=2, noise=0.01, **kwags):
+        # --------------------------------------------------#
+        # We set up a set of linear equations such that
+        # Ax = b
+        # Where A is the coefficient matrix and x is the iop concentrations
+        #--------------------------------------------------#
+
+        if method == 1:
+            self.read_all_iops_from_files()
+
+            #--------------------------------------------------#
+            # We make the coefficient matrix
+            #
+            # |/phi, m, d, g|
+            # | :    :  :  :|
+            #
+            #  The rows are the wavelengths of a or b
+            #--------------------------------------------------#
+
+            Aa = scipy.zeros(((self.a.shape[1], 4)))
+            Aa[:, 0] = scipy.squeeze(self.a_phi)
+            Aa[:, 1] = scipy.squeeze(self.a_m)
+            Aa[:, 2] = scipy.squeeze(self.a_d)
+            Aa[:, 3] = scipy.squeeze(self.a_g)
+
+            Ab = scipy.zeros(((self.bb.shape[1], 4)))
+            Ab[:, 0] = scipy.squeeze(self.bb_phi)
+            Ab[:, 1] = scipy.squeeze(self.bb_m)
+            Ab[:, 2] = scipy.squeeze(self.bb_d)
+            Ab[:, 3] = scipy.zeros_like(scipy.squeeze(self.a_g))
+
+            A = scipy.vstack((Aa, Ab))
+            A = scipy.squeeze(A)
+
+            #--------------------------------------------------#
+            # Now we crate b
+            #--------------------------------------------------#
+            ba = scipy.zeros((1, self.a.shape[1]))
+            ba[0, :] = self.a - self.aw
+
+            bb = scipy.zeros((1, self.a.shape[1]))
+            bb[0, :] = self.bb - self.bw
+
+            b = scipy.hstack((ba, bb))
+        elif method == 2:
+            Aa = scipy.zeros(((self.a.shape[1], 4)))
+            Aa[:, 0] = scipy.squeeze(self.a_phi).T
+            Aa[:, 1] = scipy.squeeze(self.a_m).T
+            Aa[:, 2] = scipy.squeeze(self.a_d).T
+            Aa[:, 3] = scipy.squeeze(self.a_g).T
+
+            Ab = scipy.zeros(((self.bb.shape[1], 4)))
+            Ab[:, 0] = scipy.squeeze(self.bb_phi).T
+            Ab[:, 1] = scipy.squeeze(self.bb_m).T
+            Ab[:, 2] = scipy.squeeze(self.bb_d).T
+            Ab[:, 3] = scipy.zeros_like(scipy.squeeze(self.a_g).T)
+
+            bb_over_a = scipy.squeeze(self.bb.T / self.a.T)
+
+            A = scipy.zeros((Aa.shape[0], Aa.shape[1]))
+
+            for i_iter in range(Aa.shape[1]):
+                A[:, i_iter] = Aa[:, i_iter] * (bb_over_a[:]) - Ab[:, i_iter]
+
+            b = (scipy.squeeze(self.aw).T * bb_over_a - scipy.squeeze(self.bw.T)) * -1
+
+            #--------------------------------------------------#
+            # Now we replicate the matricies and add the noise
+            #--------------------------------------------------#
+            A = scipy.tile(A, (num_bootstraps, 1))
+            b = scipy.tile(b, (num_bootstraps))
+
+            noise_a = scipy.random.random(A.shape) * noise
+            noise_b = scipy.random.random(b.shape) * noise
+
+            A = A + noise_a
+            b = b + noise_b
+
+        x = scipy.sparse.linalg.lsqr(A, b)
+
+        return x
 
 
 class McKeeModelCase2(OpticalModel):
@@ -604,7 +724,7 @@ class QAA(OpticalModel):
         rrs = self.g0 * u + self.g1 * u ** 2
         rrs = 0.5 * rrs / (1 - 1.5 * rrs)
 
-        #k = a + bb
+        # k = a + bb
 
         #Rrs = (G0_w + G1_w * (self.bw / k)) * self.bw / k + (G0_p + G1_p * (self.bb_m / k)) * (self.bb_m / k)
         return scipy.squeeze(rrs)
@@ -624,7 +744,7 @@ class QAA(OpticalModel):
         params = scipy.zeros((self.rrs.shape[0], 4))
 
         for i_iter in range(0, self.rrs.shape[0]):
-            rrs = self.calc_rrs(self.rrs)[i_iter, :]  #  Todo, do this in a loop
+            rrs = self.calc_rrs(self.rrs)[i_iter, :]  # Todo, do this in a loop
 
             idx410 = scipy.where(self.wavelengths == 410)[0]
             idx440 = scipy.where(self.wavelengths == 440)[0]
