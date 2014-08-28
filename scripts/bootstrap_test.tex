@@ -1,0 +1,1476 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass{article}
+
+    
+    
+    \usepackage{graphicx} % Used to insert images
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{color} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    
+
+    
+    
+    \definecolor{orange}{cmyk}{0,0.4,0.8,0.2}
+    \definecolor{darkorange}{rgb}{.71,0.21,0.01}
+    \definecolor{darkgreen}{rgb}{.12,.54,.11}
+    \definecolor{myteal}{rgb}{.26, .44, .56}
+    \definecolor{gray}{gray}{0.45}
+    \definecolor{lightgray}{gray}{.95}
+    \definecolor{mediumgray}{gray}{.8}
+    \definecolor{inputbackground}{rgb}{.95, .95, .85}
+    \definecolor{outputbackground}{rgb}{.95, .95, .95}
+    \definecolor{traceback}{rgb}{1, .95, .95}
+    % ansi colors
+    \definecolor{red}{rgb}{.6,0,0}
+    \definecolor{green}{rgb}{0,.65,0}
+    \definecolor{brown}{rgb}{0.6,0.6,0}
+    \definecolor{blue}{rgb}{0,.145,.698}
+    \definecolor{purple}{rgb}{.698,.145,.698}
+    \definecolor{cyan}{rgb}{0,.698,.698}
+    \definecolor{lightgray}{gray}{0.5}
+    
+    % bright ansi colors
+    \definecolor{darkgray}{gray}{0.25}
+    \definecolor{lightred}{rgb}{1.0,0.39,0.28}
+    \definecolor{lightgreen}{rgb}{0.48,0.99,0.0}
+    \definecolor{lightblue}{rgb}{0.53,0.81,0.92}
+    \definecolor{lightpurple}{rgb}{0.87,0.63,0.87}
+    \definecolor{lightcyan}{rgb}{0.5,1.0,0.83}
+    
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{bootstrap\_test}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=blue,
+      linkcolor=darkorange,
+      citecolor=darkgreen,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \subsection{}\label{section}
+
+\section{Deconvolution of Specific Inherent Optical Properties
+(SIOPs)}\label{deconvolution-of-specific-inherent-optical-properties-siops}
+
+\subsection{Approach}\label{approach}
+
+Assume there are 4 non-water constituents: phytoplankton $(\phi)$,
+minerals $(m)$. detritus $(d)$ and coloured dissolved organic material
+$(g)$ and that:
+
+$a(\lambda) = a_\phi(\lambda)\phi + a_m(\lambda)m + a_d(\lambda)d + a_g(\lambda)g + a_w(\lambda)$
+
+$b_b(\lambda) = b_{b\phi}(\lambda)\phi + b_{bm}(\lambda)m + b_{bd}(\lambda)d + b_{bw}(\lambda)$
+
+Where:
+
+$\left[\frac{b_b}{a}\right](\lambda) = \frac{b_{b\phi}(\lambda).\phi + b_{bm}(\lambda).m + b_{bd}(\lambda).d + b_{bw}(\lambda)}{a_\phi(\lambda).\phi + a_m(\lambda) + a_d(\lambda).g + a_w(\lambda)}$
+
+Factorised and rearranged ( $\lambda$ is dropeed for brievity)
+
+$A(\lambda) = \left(a_\phi\frac{b_b}{a} - b_\phi \right)\phi + \left(a_m\frac{b_b}{a} - b_m \right)m + \left(a_d\frac{b_b}{a} - b_d \right)d + \left(a_g\frac{b_b}{a} - b_g \right)g$
+
+And
+
+$b(\lambda) = -\left(a_w\frac{b_b}{a} - b_w \right)$
+
+The general model for n constituents
+
+$0 = \sum\limits_{i=1}^n\left[a_i(\lambda)\left[ \frac{b_b}{a}\right](\lambda) - b_{bi}(\lambda)  \right].x_i + a_w(\lambda)\left[\frac{b_b}{a}\right](\lambda) - b_{bw} $
+
+Put in matrix format
+
+$A_{\lambda_m,n} =  \begin{pmatrix}   p_{\lambda_1,\phi} & p_{\lambda_1,m} & p_{\lambda_1,d} & p_{\lambda_1,g} \\   p_{\lambda_2,\phi} & p_{\lambda_2,m} & p_{\lambda_2,d} & p_{\lambda_2,g}  \\   \vdots  & \vdots  & \vdots & \vdots \\   p_{\lambda_m,\phi} & p_{\lambda_m,m} & p_{\lambda_m,d} & p_{\lambda_m,g}  \end{pmatrix}$
+$x = \begin{pmatrix}  \phi \\  m \\  d \\  g \\  \end{pmatrix} $ \$
+b\_\{\lambda\_m\} =
+
+\begin{pmatrix}
+ q_{\lambda_1, k} \\
+ q_{\lambda_2, k} \\
+ \vdots \\
+ q_{\lambda_m, k}
+ \end{pmatrix}
+
+\$
+
+Where
+
+$p~$ is
+$~~a_i(\lambda)\left[ \frac{b_b}{a}\right](\lambda) - b_{bi}(\lambda)$
+
+$q~$ is $~~ -a_w(\lambda)\left[\frac{b_b}{a}\right](\lambda) - b_{bw} $
+
+The solution of $x$ is the solution to the Matrix equation
+
+$Ax=b$ ---- \#\#Bootstrap method
+
+The boot strap method is a technique that can increase empirical
+confidence of estimated parameters. The method works by simulating noise
+inherent in the data which has the effect of synthentically increasing
+the sample size of the training set of data.
+
+One variation of the boot strap method is to define a training set of
+data and a validation set of data. The method makes an estimate of the
+noise and assumes that it is small with respect to the parameters and
+have zero mean.
+
+$y = f(x) + \epsilon$
+
+Where $\epsilon$ is noise with an empirical distribution. A basic
+summary of the process is as follows.
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  For a training set of measurements ${x_i}$ estimate a noise level.
+\item
+  Resample the measurements by generating a new set of measurements
+  ${x_i + \epsilon_i}$
+\item
+  Invert the model of parameters of interest
+\item
+  Cross-validate the training set against the validation set of data
+\item
+  Repeat this procoess for a new choice of noise until there is no
+  improvement in the prediction
+\end{itemize}
+
+The following sections investigates the suitability of the bootstrap to
+deconvolving in-water constituents from absorption and scattering
+measurements by first testing the affectiveness of the method on a
+synthetic dataset followed by testing the method on measurements made in
+the Ligurian sea and validated against laboratory measurements.
+
+    \section{Sections}\label{sections}
+
+\hyperref[section1]{Deconvolution of Specific Inherent Optical
+Properties} * \hyperref[section1.1]{Bootstrap Method}
+
+\hyperref[section2]{Test} * \hyperref[section2.1]{Test Dataset} *
+\hyperref[section2.3]{Model Implementation} *
+\hyperref[section3]{Sensitivity Tests} * \hyperref[section3.1]{Test 1} *
+\hyperref[section3.2]{Test 2} * \hyperref[section3.3]{Test 3} *
+\hyperref[section3.4]{Test 4} * \hyperref[section3.4.1]{Test 4a} *
+\hyperref[section3.5]{Test 5} * \hyperref[section3.5]{Test 6}
+
+\hyperref[section4]{Inversion of ACS} * \hyperref[section4.1]{SIOPs from
+Ligurian Sea} * \hyperref[section4.2]{Characterising the noise} *
+\hyperref[section4.3]{Noise Distribution}
+
+\hyperref[section5]{Optical deconvolution of ACS measurements} *
+\hyperref[section5.1]{Data file} * \hyperref[section5.2]{Modelling the
+noise} * \hyperref[section5.2.1]{Assumptions} *
+\hyperref[section5.2.2]{Method} * \hyperref[section5.3]{Results}
+
+\hyperref[section6]{Conclusions}
+
+    \subsection{}\label{section}
+
+\section{Test}\label{test}
+
+Firstly, to test the method a purely synthetic data set was used to test
+he peformance and sensitivity of the model. The model was coded using
+python2.7 and shown below. ---- \#\#Test Dataset
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}57}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k+kn}{as} \PY{n+nn}{np}
+         \PY{k+kn}{import} \PY{n+nn}{scipy}
+         \PY{k+kn}{from} \PY{n+nn}{scipy.sparse} \PY{k+kn}{import} \PY{n}{linalg}
+         
+         \PY{n}{wavelength}  \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{412}\PY{p}{,} \PY{l+m+mi}{440}\PY{p}{,} \PY{l+m+mi}{488}\PY{p}{,} \PY{l+m+mi}{510}\PY{p}{,} \PY{l+m+mi}{532}\PY{p}{,} \PY{l+m+mi}{555}\PY{p}{,} \PY{l+m+mi}{650}\PY{p}{,} \PY{l+m+mi}{676}\PY{p}{,} \PY{l+m+mi}{715}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a\PYZus{}phi} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.0366}\PY{p}{,} \PY{l+m+mf}{0.0434}\PY{p}{,} \PY{l+m+mf}{0.0304}\PY{p}{,} \PY{l+m+mf}{0.0211}\PY{p}{,} \PY{l+m+mf}{0.0145}\PY{p}{,} \PY{l+m+mf}{0.0098}\PY{p}{,} \PY{l+m+mf}{0.0094}\PY{p}{,} \PY{l+m+mf}{0.0244}\PY{p}{,} \PY{l+m+mf}{0.0015}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a\PYZus{}d} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.0071}\PY{p}{,} \PY{l+m+mf}{0.0055}\PY{p}{,} \PY{l+m+mf}{0.0031}\PY{p}{,} \PY{l+m+mf}{0.0024}\PY{p}{,} \PY{l+m+mf}{0.0017}\PY{p}{,} \PY{l+m+mf}{0.0014}\PY{p}{,} \PY{l+m+mf}{0.0012}\PY{p}{,} \PY{l+m+mf}{0.0017}\PY{p}{,} \PY{l+m+mf}{0.0008}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a\PYZus{}m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.0672}\PY{p}{,} \PY{l+m+mf}{0.0468}\PY{p}{,} \PY{l+m+mf}{0.0303}\PY{p}{,} \PY{l+m+mf}{0.0230}\PY{p}{,} \PY{l+m+mf}{0.0178}\PY{p}{,} \PY{l+m+mf}{0.0132}\PY{p}{,} \PY{l+m+mf}{0.0082}\PY{p}{,} \PY{l+m+mf}{0.0074}\PY{p}{,} \PY{l+m+mf}{0.0069}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a\PYZus{}g} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.6619}\PY{p}{,} \PY{l+m+mf}{1.0000}\PY{p}{,} \PY{l+m+mf}{0.4540}\PY{p}{,} \PY{l+m+mf}{0.3253}\PY{p}{,} \PY{l+m+mf}{0.2503}\PY{p}{,} \PY{l+m+mf}{0.1745}\PY{p}{,} \PY{l+m+mf}{0.0463}\PY{p}{,} \PY{l+m+mf}{0.0208}\PY{p}{,} \PY{l+m+mf}{0.0000}\PY{p}{]}\PY{p}{)}
+         \PY{n}{bb\PYZus{}phi} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.00194}\PY{p}{,} \PY{l+m+mf}{0.00170}\PY{p}{,} \PY{l+m+mf}{0.00183}\PY{p}{,} \PY{l+m+mf}{0.00199}\PY{p}{,} \PY{l+m+mf}{0.00178}\PY{p}{,} \PY{l+m+mf}{0.00169}\PY{p}{,} \PY{l+m+mf}{0.00157}\PY{p}{,} \PY{l+m+mf}{0.00147}\PY{p}{,} \PY{l+m+mf}{0.00144}\PY{p}{]}\PY{p}{)}
+         \PY{n}{bb\PYZus{}m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.02075}\PY{p}{,} \PY{l+m+mf}{0.01880}\PY{p}{,} \PY{l+m+mf}{0.01854}\PY{p}{,} \PY{l+m+mf}{0.01898}\PY{p}{,} \PY{l+m+mf}{0.01710}\PY{p}{,} \PY{l+m+mf}{0.01639}\PY{p}{,} \PY{l+m+mf}{0.01602}\PY{p}{,} \PY{l+m+mf}{0.01444}\PY{p}{,} \PY{l+m+mf}{0.01320}\PY{p}{]}\PY{p}{)}
+         \PY{n}{bb\PYZus{}g} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+         \PY{n}{bb\PYZus{}d} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a\PYZus{}w} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.00469}\PY{p}{,} \PY{l+m+mf}{0.00635}\PY{p}{,} \PY{l+m+mf}{0.01454}\PY{p}{,} \PY{l+m+mf}{0.0325}\PY{p}{,} \PY{l+m+mf}{0.0442}\PY{p}{,} \PY{l+m+mf}{0.0592}\PY{p}{,} \PY{l+m+mf}{0.34}\PY{p}{,} \PY{l+m+mf}{0.4546}\PY{p}{,} \PY{l+m+mf}{1.029}\PY{p}{]}\PY{p}{)}
+         \PY{n}{bb\PYZus{}w} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.00333}\PY{p}{,} \PY{l+m+mf}{0.00245}\PY{p}{,} \PY{l+m+mf}{0.00158}\PY{p}{,} \PY{l+m+mf}{0.0013}\PY{p}{,} \PY{l+m+mf}{0.00109}\PY{p}{,} \PY{l+m+mf}{0.000925}\PY{p}{,} \PY{l+m+mf}{0.0005}\PY{p}{,} \PY{l+m+mf}{0.00037}\PY{p}{,} \PY{l+m+mf}{0.000325}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    \subsection{}\label{section}
+
+\subsection{Model implementation}\label{model-implementation}
+
+Below the deconvolution via bootstrap technique code in Python. The
+function defined is:
+
+\begin{verbatim}
+run_bootstrap(a_phi, a_m, a_d, a_g, a_w, bb_phi, bb_m, bb_d, bb_g, bb_w,
+            phi=1, m=1, d=1, g=1, num_bootstraps=1, noise=0)
+\end{verbatim}
+
+Where:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  a\_phi is $a_\phi$: absorption due to phytoplankton
+\item
+  a\_m is $a_m$: absorption due to suspended minerals
+\item
+  a\_d is $a_d$: absorption due to organic detritus
+\item
+  a\_g is $a_g$: absorption due to gelbstoff
+\item
+  a\_w is $a_w$: absorption of pure sea water
+\item
+  bb\_phi is $b_{b\phi}$: backscatter due to phytoplankton
+\item
+  bb\_m is $b_{bm}$: backscatter due to suspended minerals
+\item
+  bb\_d is $b_{bd}$: backscatter due to organic detritus
+\item
+  bb\_g is $b_{bg}$: backscatter due to gelbstoff
+\item
+  bb\_w is $b_{bw}$: backscatter due to pure sea water
+\item
+  phi is $\phi$: concentration of phytoplankton
+\item
+  m is $m$: relative concentration of minerals with respect the SIOP
+\item
+  d is $d$: relative concentration of detritus with respect to the SIOP
+\item
+  g is $g$: relative concentration of gelbstoff with respect to the SIOP
+\item
+  num\_bootstraps: is the number replication of in input data
+\item
+  noise is percentage: from mean of 1 standard deviation random noise
+\end{itemize}
+
+Here \texttt{(}$\phi$\texttt{, m, d , g)} are `helper parameters' which
+make it possible to artificially scale the inputs. In practice these
+should be left at 1.0 (i.e.~no scaling) as the scaling is what the model
+is trying to invert.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}58}]:} \PY{k}{def} \PY{n+nf}{run\PYZus{}bootstrap}\PY{p}{(}\PY{n}{a\PYZus{}phi}\PY{p}{,} \PY{n}{a\PYZus{}m}\PY{p}{,} \PY{n}{a\PYZus{}d}\PY{p}{,} \PY{n}{a\PYZus{}g}\PY{p}{,} \PY{n}{a\PYZus{}w}\PY{p}{,} \PY{n}{bb\PYZus{}phi}\PY{p}{,} \PY{n}{bb\PYZus{}m}\PY{p}{,} \PY{n}{bb\PYZus{}d}\PY{p}{,} \PY{n}{bb\PYZus{}g}\PY{p}{,} \PY{n}{bb\PYZus{}w}\PY{p}{,} \PY{n}{phi}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{m}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{d}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{g}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{num\PYZus{}bootstraps}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{noise}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+             \PY{n}{Aa} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{wavelength}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+             \PY{n}{Aa}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{a\PYZus{}phi}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}* phi}
+             \PY{n}{Aa}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{a\PYZus{}m}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}* m}
+             \PY{n}{Aa}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{a\PYZus{}d}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}* d}
+             \PY{n}{Aa}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{a\PYZus{}g}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}* g}
+         
+             \PY{n}{Ab} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{wavelength}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+             \PY{n}{Ab}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{bb\PYZus{}phi}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}* phi}
+             \PY{n}{Ab}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{bb\PYZus{}m}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}* m}
+             \PY{n}{Ab}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{bb\PYZus{}d}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}* d}
+             \PY{n}{Ab}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{bb\PYZus{}g}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}* g}
+         
+             \PY{n}{A} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{Aa}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{Aa}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+             
+             \PY{n}{a} \PY{o}{=} \PY{n}{a\PYZus{}phi} \PY{o}{+} \PY{n}{a\PYZus{}d} \PY{o}{+} \PY{n}{a\PYZus{}m} \PY{o}{+} \PY{n}{a\PYZus{}g} \PY{o}{+} \PY{n}{a\PYZus{}w}
+             \PY{n}{bb} \PY{o}{=} \PY{n}{bb\PYZus{}phi} \PY{o}{+} \PY{n}{bb\PYZus{}m} \PY{o}{+} \PY{n}{bb\PYZus{}g} \PY{o}{+} \PY{n}{bb\PYZus{}w}
+             \PY{n}{bb\PYZus{}over\PYZus{}a} \PY{o}{=} \PY{n}{bb} \PY{o}{/} \PY{n}{a} 
+         
+             \PY{n}{scale} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{phi}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{d}\PY{p}{,} \PY{n}{g}\PY{p}{]}\PY{p}{)}
+         
+             \PY{k}{for} \PY{n}{i\PYZus{}iter} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{Aa}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{A}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i\PYZus{}iter}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{n}{Aa}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i\PYZus{}iter}\PY{p}{]} \PY{o}{*} \PY{p}{(}\PY{n}{bb\PYZus{}over\PYZus{}a}\PY{p}{[}\PY{p}{:}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{Ab}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{)} \PY{o}{*} \PY{n}{scale}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{]}
+         
+             
+             \PY{n}{b} \PY{o}{=} \PY{p}{(}\PY{n}{scipy}\PY{o}{.}\PY{n}{squeeze}\PY{p}{(}\PY{n}{a\PYZus{}w}\PY{o}{.}\PY{n}{T}\PY{p}{)} \PY{o}{*} \PY{n}{bb\PYZus{}over\PYZus{}a} \PY{o}{\PYZhy{}} \PY{n}{scipy}\PY{o}{.}\PY{n}{squeeze}\PY{p}{(}\PY{n}{bb\PYZus{}w}\PY{o}{.}\PY{n}{T}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1}
+             
+             \PY{c}{\PYZsh{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZsh{}}
+             \PY{c}{\PYZsh{} Now we replicate the matricies and add the noise}
+             \PY{c}{\PYZsh{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZsh{}}
+             \PY{n}{A} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{tile}\PY{p}{(}\PY{n}{A}\PY{p}{,} \PY{p}{(}\PY{n}{num\PYZus{}bootstraps}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+             \PY{n}{b} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{tile}\PY{p}{(}\PY{n}{b}\PY{p}{,} \PY{p}{(}\PY{n}{num\PYZus{}bootstraps}\PY{p}{)}\PY{p}{)}
+         
+             \PY{c}{\PYZsh{}noise\PYZus{}a = (scipy.random.randn(np.int(A.shape[0]), np.int(A.shape[1])) * noise) + 1}
+             \PY{c}{\PYZsh{}noise\PYZus{}b = (scipy.random.randn(np.int(b.shape[0])) * noise) + 1}
+             \PY{n}{noise\PYZus{}a} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{n}{low}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{noise}\PY{p}{)}\PY{p}{,} \PY{n}{high}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{+} \PY{n}{noise}\PY{p}{)}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{A}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+             \PY{n}{noise\PYZus{}b} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{uniform}\PY{p}{(}\PY{n}{low}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{noise}\PY{p}{)}\PY{p}{,} \PY{n}{high}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{+} \PY{n}{noise}\PY{p}{)}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{b}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+             
+             \PY{n}{A} \PY{o}{=} \PY{n}{A} \PY{o}{+} \PY{n}{noise\PYZus{}a}
+             \PY{n}{b} \PY{o}{=} \PY{n}{b} \PY{o}{+} \PY{n}{noise\PYZus{}b}
+         
+             \PY{n}{x} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{sparse}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{lsqr}\PY{p}{(}\PY{n}{A}\PY{p}{,} \PY{n}{b}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+             
+             \PY{k}{return} \PY{l+m+mf}{1.0} \PY{o}{/} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{p}{,} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+\end{Verbatim}
+
+    $x\begin{pmatrix}  \phi \\  m \\  d \\  g \\  \end{pmatrix} = $
+
+    \subsection{}\label{section}
+
+\section{Sensitivity Tests}\label{sensitivity-tests}
+
+\subsection{}\label{section-1}
+
+\subsection{Test 1}\label{test-1}
+
+Here the test is run with 0\% noise and no replication of the data. The
+expect return values are 1.0 for all values as the model should just
+return the concentration of the inputs with respect to the inputs. There
+is no artificial scalling of the parameters
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}59}]:} \PY{n}{x} \PY{o}{=} \PY{n}{run\PYZus{}bootstrap}\PY{p}{(}\PY{n}{a\PYZus{}phi}\PY{p}{,} \PY{n}{a\PYZus{}m}\PY{p}{,} \PY{n}{a\PYZus{}d}\PY{p}{,} \PY{n}{a\PYZus{}g}\PY{p}{,} \PY{n}{a\PYZus{}w}\PY{p}{,} \PY{n}{bb\PYZus{}phi}\PY{p}{,} \PY{n}{bb\PYZus{}m}\PY{p}{,} \PY{n}{bb\PYZus{}d}\PY{p}{,} \PY{n}{bb\PYZus{}g}\PY{p}{,} \PY{n}{bb\PYZus{}w}\PY{p}{)}
+         \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{:}
+             \PY{k}{print}\PY{p}{(}\PY{n}{i}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+1.0000000025
+1.00000002563
+1.00000000045
+1.00000002805
+    \end{Verbatim}
+
+    \subsection{}\label{section}
+
+\subsection{Test 2}\label{test-2}
+
+Test 1 is repeated with 10000 bootstraps and 0\% noise. The expected
+return values are also expected to be 1.0 for all values as no noise has
+been added. The model is over determined, however all new bootstraps are
+copies of the inputs and therefore linearly dependent. This test is
+primarily to test the software and the hardware memory requirements.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}60}]:} \PY{n}{scale\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+         \PY{n}{num\PYZus{}bootstraps} \PY{o}{=} \PY{l+m+mi}{10000}
+         \PY{n}{noise} \PY{o}{=} \PY{l+m+mf}{0.0}
+         \PY{n}{param\PYZus{}str\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{p}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{m}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{d}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{g}\PY{l+s}{\PYZsq{}}\PY{p}{]}
+         \PY{n}{phi} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+         \PY{n}{m} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+         \PY{n}{d} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+         \PY{n}{g} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}
+         
+         \PY{n}{x} \PY{o}{=} \PY{n}{run\PYZus{}bootstrap}\PY{p}{(}\PY{n}{a\PYZus{}phi}\PY{p}{,} \PY{n}{a\PYZus{}m}\PY{p}{,} \PY{n}{a\PYZus{}d}\PY{p}{,} \PY{n}{a\PYZus{}g}\PY{p}{,} \PY{n}{a\PYZus{}w}\PY{p}{,} \PY{n}{bb\PYZus{}phi}\PY{p}{,} \PY{n}{bb\PYZus{}m}\PY{p}{,} \PY{n}{bb\PYZus{}d}\PY{p}{,} \PY{n}{bb\PYZus{}g}\PY{p}{,} \PY{n}{bb\PYZus{}w}\PY{p}{,}
+                           \PY{n}{phi}\PY{o}{=}\PY{n}{phi}\PY{p}{,} \PY{n}{m}\PY{o}{=}\PY{n}{m}\PY{p}{,} \PY{n}{d}\PY{o}{=}\PY{n}{d}\PY{p}{,} \PY{n}{g}\PY{o}{=}\PY{n}{g}\PY{p}{,}
+                           \PY{n}{num\PYZus{}bootstraps}\PY{o}{=}\PY{n}{num\PYZus{}bootstraps}\PY{p}{,} \PY{n}{noise}\PY{o}{=}\PY{n}{noise}\PY{p}{)}
+         
+         \PY{n}{residual} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{scale\PYZus{}vals}\PY{p}{)} \PY{o}{/} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+         
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{=============================}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{P :: value     :: residual }\PY{l+s}{\PYZpc{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{k}{for} \PY{n}{i\PYZus{}iter}\PY{p}{,} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+             \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZob{}0\PYZcb{} :: \PYZob{}1:4f\PYZcb{}  :: \PYZob{}2:4f\PYZcb{} }\PY{l+s}{\PYZpc{}}\PY{l+s}{\PYZsq{}} \PY{p}{)}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{param\PYZus{}str\PYZus{}list}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{residual}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{)}
+             \PY{c}{\PYZsh{}print(i)}
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{=============================}\PY{l+s}{\PYZsq{}}\PY{p}{)} 
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+=============================
+P :: value     :: residual \%
+-----------------------------
+p :: 1.000000  :: -0.000000 \%
+m :: 1.000000  :: 0.000000 \%
+d :: 1.000000  :: -0.000000 \%
+g :: 1.000000  :: 0.000000 \%
+=============================
+    \end{Verbatim}
+
+    \subsection{}\label{section}
+
+\subsection{Test 3}\label{test-3}
+
+We repeat Test 2 with 10000 bootstraps and 1\% noise
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}62}]:} \PY{n}{scale\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+         \PY{n}{num\PYZus{}bootstraps} \PY{o}{=} \PY{l+m+mi}{100000}
+         \PY{n}{noise} \PY{o}{=} \PY{l+m+mf}{0.01}
+         \PY{n}{param\PYZus{}str\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{p}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{m}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{d}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{g}\PY{l+s}{\PYZsq{}}\PY{p}{]}
+         \PY{n}{phi} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+         \PY{n}{m} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+         \PY{n}{d} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+         \PY{n}{g} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}
+         
+         \PY{n}{x} \PY{o}{=} \PY{n}{run\PYZus{}bootstrap}\PY{p}{(}\PY{n}{a\PYZus{}phi}\PY{p}{,} \PY{n}{a\PYZus{}m}\PY{p}{,} \PY{n}{a\PYZus{}d}\PY{p}{,} \PY{n}{a\PYZus{}g}\PY{p}{,} \PY{n}{a\PYZus{}w}\PY{p}{,} \PY{n}{bb\PYZus{}phi}\PY{p}{,} \PY{n}{bb\PYZus{}m}\PY{p}{,} \PY{n}{bb\PYZus{}d}\PY{p}{,} \PY{n}{bb\PYZus{}g}\PY{p}{,} \PY{n}{bb\PYZus{}w}\PY{p}{,}
+                           \PY{n}{phi}\PY{o}{=}\PY{n}{phi}\PY{p}{,} \PY{n}{m}\PY{o}{=}\PY{n}{m}\PY{p}{,} \PY{n}{d}\PY{o}{=}\PY{n}{d}\PY{p}{,} \PY{n}{g}\PY{o}{=}\PY{n}{g}\PY{p}{,}
+                           \PY{n}{num\PYZus{}bootstraps}\PY{o}{=}\PY{n}{num\PYZus{}bootstraps}\PY{p}{,} \PY{n}{noise}\PY{o}{=}\PY{n}{noise}\PY{p}{)}
+         
+         \PY{n}{residual} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{scale\PYZus{}vals}\PY{p}{)} \PY{o}{/} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+         
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{=============================}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{P :: value     :: residual }\PY{l+s}{\PYZpc{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{k}{for} \PY{n}{i\PYZus{}iter}\PY{p}{,} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+             \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZob{}0\PYZcb{} :: \PYZob{}1:4f\PYZcb{}  :: \PYZob{}2:4f\PYZcb{} }\PY{l+s}{\PYZpc{}}\PY{l+s}{\PYZsq{}} \PY{p}{)}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{param\PYZus{}str\PYZus{}list}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{residual}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{)}
+             \PY{c}{\PYZsh{}print(i)}
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{=============================}\PY{l+s}{\PYZsq{}}\PY{p}{)} 
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+=============================
+P :: value     :: residual \%
+-----------------------------
+p :: 0.966417  :: -3.474999 \%
+m :: 1.004118  :: 0.410069 \%
+d :: 1.715128  :: 41.695303 \%
+g :: 0.999619  :: -0.038073 \%
+=============================
+    \end{Verbatim}
+
+    \subsection{}\label{section}
+
+\subsection{Test 4}\label{test-4}
+
+We hold the number of bootstraps constant and slowly increase the level
+of the noise.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}63}]:} \PY{o}{\PYZpc{}}\PY{k}{matplotlib} \PY{n}{inline}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{figure.figsize}\PY{l+s}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{10.0}\PY{p}{,} \PY{l+m+mf}{8.0}\PY{p}{)}
+         \PY{n}{matplotlib}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{savefig.dpi}\PY{l+s}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{200}
+         \PY{n}{scale\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+         \PY{n}{num\PYZus{}bootstraps} \PY{o}{=} \PY{l+m+mi}{100000}
+         \PY{n}{min\PYZus{}noise} \PY{o}{=} \PY{l+m+mi}{0}
+         \PY{n}{max\PYZus{}noise} \PY{o}{=} \PY{l+m+mf}{0.03}
+         \PY{n}{noise\PYZus{}steps} \PY{o}{=} \PY{l+m+mf}{0.0015}
+         
+         \PY{n}{phi} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+         \PY{n}{m} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+         \PY{n}{d} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+         \PY{n}{g} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}
+         
+         \PY{n}{x\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{residual\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{noise\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         
+         \PY{k}{for} \PY{n}{noise} \PY{o+ow}{in} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{min\PYZus{}noise}\PY{p}{,} \PY{n}{max\PYZus{}noise}\PY{p}{,} \PY{n}{noise\PYZus{}steps}\PY{p}{)}\PY{p}{:}
+             \PY{n}{noise\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{noise}\PY{p}{)}
+             \PY{n}{x} \PY{o}{=} \PY{n}{run\PYZus{}bootstrap}\PY{p}{(}\PY{n}{a\PYZus{}phi}\PY{p}{,} \PY{n}{a\PYZus{}m}\PY{p}{,} \PY{n}{a\PYZus{}d}\PY{p}{,} \PY{n}{a\PYZus{}g}\PY{p}{,} \PY{n}{a\PYZus{}w}\PY{p}{,} \PY{n}{bb\PYZus{}phi}\PY{p}{,} \PY{n}{bb\PYZus{}m}\PY{p}{,} \PY{n}{bb\PYZus{}d}\PY{p}{,} \PY{n}{bb\PYZus{}g}\PY{p}{,} \PY{n}{bb\PYZus{}w}\PY{p}{,}
+                               \PY{n}{phi}\PY{o}{=}\PY{n}{phi}\PY{p}{,} \PY{n}{m}\PY{o}{=}\PY{n}{m}\PY{p}{,} \PY{n}{d}\PY{o}{=}\PY{n}{d}\PY{p}{,} \PY{n}{g}\PY{o}{=}\PY{n}{g}\PY{p}{,}
+                               \PY{n}{num\PYZus{}bootstraps}\PY{o}{=}\PY{n}{num\PYZus{}bootstraps}\PY{p}{,} \PY{n}{noise}\PY{o}{=}\PY{n}{noise}\PY{p}{)}
+             \PY{n}{residual} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{scale\PYZus{}vals}\PY{p}{)} \PY{o}{/} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{)}
+             \PY{n}{x\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+             \PY{n}{residual\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{residual}\PY{p}{)}
+             
+         \PY{n}{noise\PYZus{}x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{noise\PYZus{}list}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+         \PY{n}{res\PYZus{}y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{residual\PYZus{}list}\PY{p}{)}
+         \PY{n}{p1} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noise\PYZus{}x}\PY{p}{,} \PY{n}{res\PYZus{}y}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZhy{}\PYZhy{}*}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{p2} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noise\PYZus{}x}\PY{p}{,} \PY{n}{res\PYZus{}y}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZhy{}\PYZhy{}*}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{p3} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noise\PYZus{}x}\PY{p}{,} \PY{n}{res\PYZus{}y}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZhy{}\PYZhy{}*}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{p4} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noise\PYZus{}x}\PY{p}{,} \PY{n}{res\PYZus{}y}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZhy{}\PYZhy{}*}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{p} \PY{o}{=} \PY{n}{Rectangle}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{fc}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{r}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZdl{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{phi\PYZdl{}}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{m}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{d}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{g}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Residual}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Input noise as }\PY{l+s+si}{\PYZpc{} o}\PY{l+s}{f mean value}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+         \PY{c}{\PYZsh{}pylab.legend([p1, p2, p3, p4], [\PYZsq{}phi\PYZsq{}, \PYZsq{}m\PYZsq{}, \PYZsq{}d\PYZsq{}, \PYZsq{}g\PYZsq{}])}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+         \PY{c}{\PYZsh{}pylab.plot(noise\PYZus{}list, residual\PYZus{}list[0][0])}
+         \PY{c}{\PYZsh{}pylab.show()}
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_14_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{}\label{section}
+
+\subsection{Test 4a}\label{test-4a}
+
+IT can be seen in Test 4 that the retrieval of $d$ quickly diverges. The
+test was repeated and the plot updated to remove $d$ so that $\phi, m$
+and $g$ can clearly be seen
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}64}]:} \PY{n}{noise\PYZus{}x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{noise\PYZus{}list}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+         \PY{n}{res\PYZus{}y} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{residual\PYZus{}list}\PY{p}{)}
+         \PY{n}{p1} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noise\PYZus{}x}\PY{p}{,} \PY{n}{res\PYZus{}y}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZhy{}\PYZhy{}o}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{p2} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noise\PYZus{}x}\PY{p}{,} \PY{n}{res\PYZus{}y}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZhy{}\PYZhy{}o}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{c}{\PYZsh{}p3 = pylab.plot(noise\PYZus{}x, res\PYZus{}y[:,2],\PYZsq{}\PYZhy{}\PYZhy{}*\PYZsq{})}
+         \PY{n}{p4} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{noise\PYZus{}x}\PY{p}{,} \PY{n}{res\PYZus{}y}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZhy{}\PYZhy{}o}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{p} \PY{o}{=} \PY{n}{Rectangle}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{fc}\PY{o}{=}\PY{l+s}{\PYZdq{}}\PY{l+s}{r}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZdl{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{phi\PYZdl{}}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{m}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{g}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Residual }\PY{l+s+si}{\PYZpc{} d}\PY{l+s}{ifference}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Input noise as }\PY{l+s+si}{\PYZpc{} o}\PY{l+s}{f mean value}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_16_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{}\label{section}
+
+\subsection{Test 5}\label{test-5}
+
+\textbf{Scaling:} We scale the input parameters artificially and see how
+well the model can invert the results.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}65}]:} \PY{n}{scale\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.5}\PY{p}{,} \PY{l+m+mf}{3.0}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{]}\PY{p}{)}
+         \PY{n}{num\PYZus{}bootstraps} \PY{o}{=} \PY{l+m+mi}{1000000}
+         \PY{n}{min\PYZus{}noise} \PY{o}{=} \PY{l+m+mi}{0}
+         \PY{n}{max\PYZus{}noise} \PY{o}{=} \PY{l+m+mi}{0}
+         \PY{n}{noise\PYZus{}steps} \PY{o}{=} \PY{l+m+mf}{0.0015}
+         \PY{n}{param\PYZus{}str\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{p}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{m}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{d}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{g}\PY{l+s}{\PYZsq{}}\PY{p}{]}
+         \PY{n}{phi} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+         \PY{n}{m} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
+         \PY{n}{d} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+         \PY{n}{g} \PY{o}{=} \PY{n}{scale\PYZus{}vals}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}
+         \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{None}
+         \PY{n}{residual} \PY{o}{=} \PY{n+nb+bp}{None}
+         \PY{n}{x\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{residual\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{noise\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         
+         \PY{c}{\PYZsh{}for noise in np.arange(min\PYZus{}noise, max\PYZus{}noise, noise\PYZus{}steps):}
+         \PY{c}{\PYZsh{}    noise\PYZus{}list.append(noise)}
+         \PY{n}{noise} \PY{o}{=} \PY{l+m+mf}{0.001} \PY{c}{\PYZsh{}.0001}
+         \PY{n}{x} \PY{o}{=} \PY{n}{run\PYZus{}bootstrap}\PY{p}{(}\PY{n}{a\PYZus{}phi}\PY{p}{,} \PY{n}{a\PYZus{}m}\PY{p}{,} \PY{n}{a\PYZus{}d}\PY{p}{,} \PY{n}{a\PYZus{}g}\PY{p}{,} \PY{n}{a\PYZus{}w}\PY{p}{,} \PY{n}{bb\PYZus{}phi}\PY{p}{,} \PY{n}{bb\PYZus{}m}\PY{p}{,} \PY{n}{bb\PYZus{}d}\PY{p}{,} \PY{n}{bb\PYZus{}g}\PY{p}{,} \PY{n}{bb\PYZus{}w}\PY{p}{,} \PY{n}{phi}\PY{o}{=}\PY{n}{phi}\PY{p}{,} \PY{n}{m}\PY{o}{=}\PY{n}{m}\PY{p}{,} \PY{n}{d}\PY{o}{=}\PY{n}{d}\PY{p}{,} \PY{n}{g}\PY{o}{=}\PY{n}{g}\PY{p}{,} \PY{n}{num\PYZus{}bootstraps}\PY{o}{=}\PY{n}{num\PYZus{}bootstraps}\PY{p}{,} \PY{n}{noise}\PY{o}{=}\PY{n}{noise}\PY{p}{)}
+         \PY{n}{residual} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{scale\PYZus{}vals}\PY{p}{)} \PY{o}{/} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{)}
+         
+         \PY{c}{\PYZsh{}print(\PYZsq{}number of loops = \PYZsq{} + str(max\PYZus{}noise / noise\PYZus{}steps))}
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{=============================}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{P :: value     :: residual }\PY{l+s}{\PYZpc{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{k}{for} \PY{n}{i\PYZus{}iter}\PY{p}{,} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+             \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZob{}0\PYZcb{} :: \PYZob{}1:4f\PYZcb{}  :: \PYZob{}2:4f\PYZcb{} }\PY{l+s}{\PYZpc{}}\PY{l+s}{\PYZsq{}} \PY{p}{)}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{param\PYZus{}str\PYZus{}list}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{residual}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{)}
+             \PY{c}{\PYZsh{}print(i)}
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{=============================}\PY{l+s}{\PYZsq{}}\PY{p}{)}   
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+=============================
+P :: value     :: residual \%
+-----------------------------
+p :: 1.499578  :: -0.028165 \%
+m :: 3.000098  :: 0.003274 \%
+d :: 1.003066  :: 0.305623 \%
+g :: 0.999999  :: -0.000143 \%
+=============================
+    \end{Verbatim}
+
+    \subsection{}\label{section}
+
+\subsection{Test 6}\label{test-6}
+
+In this test we artificially scale the input vales over a range and see
+how well we can retrive the values over a range of different noise
+vlaues
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}66}]:} \PY{n}{pylab}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{figure.figsize}\PY{l+s}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{10.0}\PY{p}{,} \PY{l+m+mf}{8.0}\PY{p}{)}
+         \PY{n}{matplotlib}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{savefig.dpi}\PY{l+s}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{200}
+         \PY{n}{scale\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{]}\PY{p}{)}
+         \PY{n}{num\PYZus{}bootstraps} \PY{o}{=} \PY{l+m+mi}{1000}
+         \PY{n}{min\PYZus{}noise} \PY{o}{=} \PY{l+m+mi}{0}
+         \PY{n}{max\PYZus{}noise} \PY{o}{=} \PY{l+m+mf}{0.035}
+         \PY{n}{noise\PYZus{}steps} \PY{o}{=} \PY{l+m+mf}{0.0015}
+         \PY{n}{param\PYZus{}str\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{p}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{m}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{d}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{g}\PY{l+s}{\PYZsq{}}\PY{p}{]}
+         \PY{n}{x} \PY{o}{=} \PY{n+nb+bp}{None}
+         \PY{n}{residual} \PY{o}{=} \PY{n+nb+bp}{None}
+         \PY{n}{x\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{residual\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{noise\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{input\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         \PY{n}{output\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+         
+         
+         \PY{n}{min\PYZus{}val} \PY{o}{=} \PY{l+m+mf}{0.01}
+         \PY{n}{max\PYZus{}val} \PY{o}{=} \PY{l+m+mf}{2.0}
+         \PY{n}{val\PYZus{}steps} \PY{o}{=} \PY{l+m+mf}{0.11}
+         
+         \PY{n}{noise} \PY{o}{=} \PY{l+m+mf}{0.20} \PY{c}{\PYZsh{}.0001}
+         
+         \PY{k}{for} \PY{n}{i\PYZus{}iter} \PY{o+ow}{in} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{min\PYZus{}val}\PY{p}{,} \PY{n}{max\PYZus{}val}\PY{p}{,} \PY{n}{val\PYZus{}steps}\PY{p}{)}\PY{p}{:}
+             \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Outer Loop :: }\PY{l+s}{\PYZsq{}} \PY{o}{+} \PY{n+nb}{str}\PY{p}{(}\PY{n}{i\PYZus{}iter}\PY{p}{)}\PY{p}{)}
+             \PY{k}{for} \PY{n}{j\PYZus{}iter} \PY{o+ow}{in} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{min\PYZus{}val}\PY{p}{,} \PY{n}{max\PYZus{}val}\PY{p}{,} \PY{n}{val\PYZus{}steps}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{for} \PY{n}{k\PYZus{}iter} \PY{o+ow}{in} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{min\PYZus{}val}\PY{p}{,} \PY{n}{max\PYZus{}val}\PY{p}{,} \PY{n}{val\PYZus{}steps}\PY{p}{)}\PY{p}{:}  
+                     \PY{k}{for} \PY{n}{l\PYZus{}iter} \PY{o+ow}{in} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{min\PYZus{}val}\PY{p}{,} \PY{n}{max\PYZus{}val}\PY{p}{,} \PY{n}{val\PYZus{}steps}\PY{p}{)}\PY{p}{:}
+                         \PY{n}{x} \PY{o}{=} \PY{n}{run\PYZus{}bootstrap}\PY{p}{(}\PY{n}{a\PYZus{}phi}\PY{p}{,} \PY{n}{a\PYZus{}m}\PY{p}{,} \PY{n}{a\PYZus{}d}\PY{p}{,} \PY{n}{a\PYZus{}g}\PY{p}{,} \PY{n}{a\PYZus{}w}\PY{p}{,} \PY{n}{bb\PYZus{}phi}\PY{p}{,} \PY{n}{bb\PYZus{}m}\PY{p}{,} \PY{n}{bb\PYZus{}d}\PY{p}{,} \PY{n}{bb\PYZus{}g}\PY{p}{,} \PY{n}{bb\PYZus{}w}\PY{p}{,} \PY{n}{phi}\PY{o}{=}\PY{n}{i\PYZus{}iter}\PY{p}{,} \PY{n}{m}\PY{o}{=}\PY{n}{j\PYZus{}iter}\PY{p}{,} \PY{n}{d}\PY{o}{=}\PY{n}{k\PYZus{}iter}\PY{p}{,} \PY{n}{g}\PY{o}{=}\PY{n}{l\PYZus{}iter}\PY{p}{,} \PY{n}{num\PYZus{}bootstraps}\PY{o}{=}\PY{n}{num\PYZus{}bootstraps}\PY{p}{,} \PY{n}{noise}\PY{o}{=}\PY{n}{noise}\PY{p}{)}
+                         \PY{n}{input\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{,} \PY{n}{j\PYZus{}iter}\PY{p}{,} \PY{n}{k\PYZus{}iter}\PY{p}{,} \PY{n}{l\PYZus{}iter}\PY{p}{]}\PY{p}{)}
+                         \PY{n}{output\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+         
+         \PY{c}{\PYZsh{} Change lists to arrays}
+         \PY{n}{input\PYZus{}array} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{input\PYZus{}list}\PY{p}{)}
+         \PY{n}{output\PYZus{}array} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{output\PYZus{}list}\PY{p}{)}
+         
+         \PY{c}{\PYZsh{}===============}
+         \PY{c}{\PYZsh{} Calculate the deviations}
+         \PY{c}{\PYZsh{}===============}
+         \PY{n}{d\PYZus{}phi} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{output\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{input\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{d\PYZus{}m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{output\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{input\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{d\PYZus{}d} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{output\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{input\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{d\PYZus{}g} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{output\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{input\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+         
+         \PY{c}{\PYZsh{}==========}
+         \PY{c}{\PYZsh{} Setup the plots }
+         \PY{c}{\PYZsh{}==========}
+         \PY{n}{props} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{n}{boxstyle}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{round}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{wheat}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{f}\PY{p}{,} \PY{p}{(}\PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{n}{ax3}\PY{p}{,} \PY{n}{ax4}\PY{p}{)}\PY{p}{)} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{sharex}\PY{o}{=}\PY{n+nb+bp}{True}\PY{p}{,} \PY{n}{sharey}\PY{o}{=}\PY{n+nb+bp}{True}\PY{p}{)}
+         \PY{n}{f}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{hspace}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}
+         \PY{n}{f}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{wspace}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}
+         
+         \PY{n}{ax1}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+         \PY{n}{setp}\PY{p}{(} \PY{n}{ax1}\PY{o}{.}\PY{n}{get\PYZus{}xticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{visible}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{)}
+         \PY{n}{ax1}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{k\PYZhy{}\PYZhy{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax1}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{input\PYZus{}list}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{output\PYZus{}list}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{o}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{)}
+         \PY{n}{ax1}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.95}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{Mean Squared Error = }\PY{l+s+si}{\PYZpc{}.4f}\PY{l+s}{\PYZsq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{d\PYZus{}phi}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{transform}\PY{o}{=}\PY{n}{ax1}\PY{o}{.}\PY{n}{transAxes}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{top}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{bbox}\PY{o}{=}\PY{n}{props}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZdl{}[}\PY{l+s}{\PYZbs{}}\PY{l+s}{phi]\PYZdl{} Input value}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZdl{}[}\PY{l+s}{\PYZbs{}}\PY{l+s}{phi]\PYZdl{} Output value}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{ax2} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{sharey}\PY{o}{=}\PY{n}{ax1}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+         \PY{n}{setp}\PY{p}{(} \PY{n}{ax2}\PY{o}{.}\PY{n}{get\PYZus{}xticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{visible}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{)}
+         \PY{n}{setp}\PY{p}{(} \PY{n}{ax2}\PY{o}{.}\PY{n}{get\PYZus{}yticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{visible}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{k\PYZhy{}\PYZhy{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{input\PYZus{}list}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{output\PYZus{}list}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{o}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{)}
+         \PY{n}{ax2}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.95}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{Mean Squared Error = }\PY{l+s+si}{\PYZpc{}.4f}\PY{l+s}{\PYZsq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{d\PYZus{}m}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{transform}\PY{o}{=}\PY{n}{ax2}\PY{o}{.}\PY{n}{transAxes}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{top}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{bbox}\PY{o}{=}\PY{n}{props}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{[m] Input value}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{[m] Output value}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{ax3} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{k\PYZhy{}\PYZhy{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{input\PYZus{}list}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{output\PYZus{}list}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{o}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{)}
+         \PY{n}{ax3}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.95}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{Mean Squared Error = }\PY{l+s+si}{\PYZpc{}.4f}\PY{l+s}{\PYZsq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{d\PYZus{}d}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{transform}\PY{o}{=}\PY{n}{ax3}\PY{o}{.}\PY{n}{transAxes}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{top}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{bbox}\PY{o}{=}\PY{n}{props}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+         
+         \PY{n}{ax3}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{[d] Input value}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax3}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{[d] Output value}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{ax4} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{k\PYZhy{}\PYZhy{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+         \PY{n}{setp}\PY{p}{(} \PY{n}{ax4}\PY{o}{.}\PY{n}{get\PYZus{}yticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{visible}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{input\PYZus{}list}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{output\PYZus{}list}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{o}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.6}\PY{p}{)}
+         \PY{n}{ax4}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.95}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{Mean Squared Error = }\PY{l+s+si}{\PYZpc{}.4f}\PY{l+s}{\PYZsq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{d\PYZus{}g}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{transform}\PY{o}{=}\PY{n}{ax4}\PY{o}{.}\PY{n}{transAxes}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{top}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{bbox}\PY{o}{=}\PY{n}{props}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+         
+         \PY{n}{ax4}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{[g] Input value}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax4}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{[g] Output value}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{c}{\PYZsh{}f.savefig(str(noise) + \PYZsq{} \PYZus{}NoiseTest.png\PYZsq{})}
+         
+         \PY{c}{\PYZsh{}=========}
+         \PY{c}{\PYZsh{} Calculate the covariance matrix}
+         \PY{c}{\PYZsh{}=========}
+         \PY{n}{covar} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{cov}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{n}{output\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{T}\PY{p}{,} \PY{n}{output\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{T}\PY{p}{,}\PY{n}{output\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{T}\PY{p}{,}\PY{n}{output\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{o}{.}\PY{n}{T}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Covariance :: }\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{k}{print}\PY{p}{(}\PY{n}{covar}\PY{p}{)}
+         \PY{n}{np}\PY{o}{.}\PY{n}{savetxt}\PY{p}{(}\PY{n+nb}{str}\PY{p}{(}\PY{n}{noise}\PY{p}{)} \PY{o}{+} \PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZus{}NoiseTest.csv}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{covar}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Outer Loop :: 0.01
+Outer Loop :: 0.12
+Outer Loop :: 0.23
+Outer Loop :: 0.34
+Outer Loop :: 0.45
+Outer Loop :: 0.56
+Outer Loop :: 0.67
+Outer Loop :: 0.78
+Outer Loop :: 0.89
+Outer Loop :: 1.0
+Outer Loop :: 1.11
+Outer Loop :: 1.22
+Outer Loop :: 1.33
+Outer Loop :: 1.44
+Outer Loop :: 1.55
+Outer Loop :: 1.66
+Outer Loop :: 1.77
+Outer Loop :: 1.88
+Outer Loop :: 1.99
+Covariance :: 
+[[  1.78296475e-02  -6.06368656e-05  -4.07827913e-06   8.22019627e-06]
+ [ -6.06368656e-05   1.04471118e+00   2.45944181e-05  -8.39751095e-05]
+ [ -4.07827913e-06   2.45944181e-05   7.13071186e-04  -2.01902392e-05]
+ [  8.22019627e-06  -8.39751095e-05  -2.01902392e-05   4.27568305e-01]]
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_20_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}51}]:} \PY{c}{\PYZsh{}==========}
+         \PY{c}{\PYZsh{} Load all the previous runs}
+         \PY{c}{\PYZsh{}==========}
+         \PY{k+kn}{import} \PY{n+nn}{os}
+         \PY{k+kn}{import} \PY{n+nn}{sympy} \PY{k+kn}{as} \PY{n+nn}{sym}
+         \PY{n}{sym}\PY{o}{.}\PY{n}{init\PYZus{}printing}\PY{p}{(}\PY{n}{use\PYZus{}unicode}\PY{o}{=}\PY{n+nb+bp}{True}\PY{p}{)}
+         
+         \PY{n}{cvar} \PY{o}{=} \PY{n}{sym}\PY{o}{.}\PY{n}{symbols}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{cvar}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{files} \PY{o}{=} \PY{n}{os}\PY{o}{.}\PY{n}{listdir}\PY{p}{(}\PY{l+s}{\PYZdq{}}\PY{l+s}{.}\PY{l+s}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{files}\PY{o}{.}\PY{n}{sort}\PY{p}{(}\PY{p}{)}
+         
+         
+         \PY{c}{\PYZsh{}print(files)}
+         \PY{k+kn}{from} \PY{n+nn}{IPython.core.display} \PY{k+kn}{import} \PY{n}{Image} 
+         \PY{k}{for} \PY{n}{f} \PY{o+ow}{in} \PY{n}{files}\PY{p}{:}
+             \PY{k}{if} \PY{l+s}{\PYZsq{}}\PY{l+s}{.png}\PY{l+s}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{f}\PY{p}{:}
+                 \PY{k}{print}\PY{p}{(}\PY{n}{f}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZus{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{l+s}{\PYZsq{}}\PY{l+s}{ noise}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+                 \PY{n}{p} \PY{o}{=} \PY{n}{Image}\PY{p}{(}\PY{n}{filename}\PY{o}{=}\PY{n}{f}\PY{p}{)} 
+                 \PY{n}{display}\PY{p}{(}\PY{n}{p}\PY{p}{)}
+                 \PY{n}{noise\PYZus{}pct} \PY{o}{=} \PY{n}{f}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZus{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{ }\PY{l+s}{\PYZsq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+                 \PY{c}{\PYZsh{}print(noise\PYZus{}pct)}
+                 \PY{n}{f2} \PY{o}{=} \PY{n+nb}{open}\PY{p}{(}\PY{n}{noise\PYZus{}pct}\PY{o}{+}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZus{}NoiseTest.csv}\PY{l+s}{\PYZsq{}}\PY{p}{,}\PY{l+s}{\PYZsq{}}\PY{l+s}{r}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+                 \PY{n}{cvar} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{loadtxt}\PY{p}{(}\PY{n}{f2}\PY{p}{)}
+                 \PY{k}{print}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Covariance Matrix}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+                 \PY{k}{print}\PY{p}{(}\PY{n}{cvar}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0.0  noise
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_21_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Covariance Matrix
+[[  3.63002803e-01   2.27680381e-08   1.10128676e-09  -1.51214472e-08]
+ [  2.27680381e-08   3.63002785e-01  -1.02391196e-09   1.88197755e-09]
+ [  1.10128676e-09  -1.02391196e-09   3.63002787e-01   1.97676779e-09]
+ [ -1.51214472e-08   1.88197755e-09   1.97676779e-09   3.63002785e-01]]
+0.01  noise
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_21_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Covariance Matrix
+[[  3.40089109e-01  -4.04189281e-05  -3.55329584e-03  -1.52740144e-05]
+ [ -4.04189281e-05   3.65895321e-01   1.50988839e-03  -2.70822606e-07]
+ [ -3.55329584e-03   1.50988839e-03   1.71934774e+00   1.53984618e-03]
+ [ -1.52740144e-05  -2.70822606e-07   1.53984618e-03   3.62743964e-01]]
+0.02  noise
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_21_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Covariance Matrix
+[[  2.84416996e-01  -4.59241535e-05  -8.40326539e+00   5.46841899e-05]
+ [ -4.59241535e-05   3.74470894e-01  -8.58692035e+00  -7.88004665e-06]
+ [ -8.40326539e+00  -8.58692035e+00   2.41822318e+08  -2.31414243e+01]
+ [  5.46841899e-05  -7.88004665e-06  -2.31414243e+01   3.62028255e-01]]
+0.03  noise
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_21_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Covariance Matrix
+[[  2.21211239e-01  -3.30462630e-05  -1.17641454e-03   4.90005239e-06]
+ [ -3.30462630e-05   3.88514259e-01   2.95779962e-05   2.03746872e-06]
+ [ -1.17641454e-03   2.95779962e-05   7.92224341e-02  -2.09840613e-04]
+ [  4.90005239e-06   2.03746872e-06  -2.09840613e-04   3.61027136e-01]]
+0.04  noise
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_21_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Covariance Matrix
+[[  1.66858726e-01  -1.15387566e-04  -3.13344569e-04   2.13470719e-05]
+ [ -1.15387566e-04   4.07669958e-01   1.46211952e-04  -1.05327461e-05]
+ [ -3.13344569e-04   1.46211952e-04   1.85746805e-02  -7.50848792e-05]
+ [  2.13470719e-05  -1.05327461e-05  -7.50848792e-05   3.59949510e-01]]
+0.05  noise
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_21_11.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Covariance Matrix
+[[  1.25795281e-01  -8.30348811e-05  -8.08630810e-05   4.00999517e-05]
+ [ -8.30348811e-05   4.31406064e-01   5.93701465e-05  -2.21176677e-05]
+ [ -8.08630810e-05   5.93701465e-05   7.55161866e-03   5.07588899e-07]
+ [  4.00999517e-05  -2.21176677e-05   5.07588899e-07   3.59039048e-01]]
+0.06  noise
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_21_13.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Covariance Matrix
+[[  9.65532809e-02  -7.84007874e-05  -5.16498058e-05  -1.24850637e-05]
+ [ -7.84007874e-05   4.59273512e-01   5.29050767e-05   3.95046840e-06]
+ [ -5.16498058e-05   5.29050767e-05   4.00493886e-03  -3.60605873e-07]
+ [ -1.24850637e-05   3.95046840e-06  -3.60605873e-07   3.58521347e-01]]
+0.08  noise
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_21_15.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Covariance Matrix
+[[  6.14993800e-02  -8.61911002e-05  -2.54810352e-05   2.51016667e-06]
+ [ -8.61911002e-05   5.24876752e-01   4.14990846e-05  -3.30934102e-06]
+ [ -2.54810352e-05   4.14990846e-05   1.76422954e-03  -9.40954673e-06]
+ [  2.51016667e-06  -3.30934102e-06  -9.40954673e-06   3.59299341e-01]]
+0.1  noise
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_21_17.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Covariance Matrix
+[[  4.33948560e-02  -6.90571556e-05  -1.26875969e-05   2.10861134e-05]
+ [ -6.90571556e-05   6.00091530e-01   2.72665551e-05  -3.18924924e-05]
+ [ -1.26875969e-05   2.72665551e-05   1.09216181e-03  -1.49507469e-05]
+ [  2.10861134e-05  -3.18924924e-05  -1.49507469e-05   3.63007197e-01]]
+0.2  noise
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_21_19.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Covariance Matrix
+[[ 0.02725647 -0.00924926 -0.00777624 -0.0084078 ]
+ [-0.00924926  0.0299638  -0.00912666 -0.00963339]
+ [-0.00777624 -0.00912666  0.02716561 -0.00857925]
+ [-0.0084078  -0.00963339 -0.00857925  0.02481906]]
+    \end{Verbatim}
+
+    \subsection{}\label{section}
+
+\section{Inversion from ACS data}\label{inversion-from-acs-data}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}52}]:} \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k+kn}{as} \PY{n+nn}{pd}
+         \PY{n}{siops} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Ligurian Sea SIOP spectra.csv}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{c}{\PYZsh{}siops[\PYZsq{}wavelength\PYZsq{}]}
+\end{Verbatim}
+
+    \subsection{}\label{section}
+
+\subsection{SIOPs from Ligurian Sea}\label{siops-from-ligurian-sea}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}53}]:} \PY{n}{pylab}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{figure.figsize}\PY{l+s}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{10.0}\PY{p}{,} \PY{l+m+mf}{8.0}\PY{p}{)}
+         \PY{n}{matplotlib}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{savefig.dpi}\PY{l+s}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{200}
+         \PY{n}{wavelength} \PY{o}{=} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength}\PY{l+s}{\PYZsq{}}\PY{p}{]}
+         
+         \PY{n}{f}\PY{p}{,} \PY{p}{(}\PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{n}{ax3}\PY{p}{,} \PY{n}{ax4}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{n}{ax5}\PY{p}{,} \PY{n}{ax6}\PY{p}{)}\PY{p}{)} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{sharex}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{all}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{f}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{hspace}\PY{o}{=}\PY{l+m+mf}{0.1}\PY{p}{)}
+         \PY{c}{\PYZsh{}f.subplots\PYZus{}adjust(wspace=0.2)}
+         
+         \PY{c}{\PYZsh{}==========}
+         \PY{c}{\PYZsh{} Set up the plots}
+         \PY{c}{\PYZsh{}==========}
+         
+         \PY{n}{ax1}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{wavelength}\PY{p}{,} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{aph*Chl}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{xerr}\PY{o}{=}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI.1}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZdl{}a\PYZus{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{phi\PYZdl{}*Chl}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax1}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+         \PY{n}{setp}\PY{p}{(} \PY{n}{ax1}\PY{o}{.}\PY{n}{get\PYZus{}xticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{visible}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{)}
+         
+         \PY{n}{ax2}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{wavelength}\PY{p}{,} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{a*CDOM}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{xerr}\PY{o}{=}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZdl{}a\PYZus{}\PYZob{}g\PYZcb{}\PYZdl{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{setp}\PY{p}{(} \PY{n}{ax2}\PY{o}{.}\PY{n}{get\PYZus{}xticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{visible}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{)}
+         \PY{n}{ax2}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{ax3}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength.1}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{adet*Chl}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI.2}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n}{ax3}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZdl{}a\PYZus{}\PYZob{}d\PYZcb{}\PYZdl{}*Chl}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{setp}\PY{p}{(} \PY{n}{ax3}\PY{o}{.}\PY{n}{get\PYZus{}xticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{visible}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{)}
+         \PY{n}{ax3}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{ax4}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength.2}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{adet*MSS}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI.3}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n}{ax4}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZdl{}a\PYZus{}\PYZob{}d\PYZcb{}*\PYZdl{}MSS}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{setp}\PY{p}{(} \PY{n}{ax4}\PY{o}{.}\PY{n}{get\PYZus{}xticklabels}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{visible}\PY{o}{=}\PY{n+nb+bp}{False}\PY{p}{)}
+         \PY{n}{ax4}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+         \PY{c}{\PYZsh{}ax5.errorbar(siops[\PYZsq{}wavelength.3\PYZsq{}], siops[\PYZsq{}bp*Chl\PYZsq{}], siops[\PYZsq{}95\PYZpc{}CI.4\PYZsq{}])}
+         \PY{c}{\PYZsh{}ax6.errorbar(siops[\PYZsq{}wavelength.4\PYZsq{}], siops[\PYZsq{}bp*MSS\PYZsq{}], siops[\PYZsq{}95\PYZpc{}CI.5\PYZsq{}])}
+         \PY{n}{ax5}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength.5}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{bbp*Chl}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI.5}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n}{ax5}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZdl{}b\PYZus{}\PYZob{}bp\PYZcb{}\PYZdl{}*Chl}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax5}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Wavelength (nm)}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax5}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{ax6}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength.5}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{bbp*MSS}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI.6}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n}{ax6}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{\PYZdl{}b\PYZus{}\PYZob{}bp\PYZcb{}\PYZdl{}*MSS}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax6}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Wavelength (nm)}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax6}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_25_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{}\label{section}
+
+\subsection{Characterising the noise}\label{characterising-the-noise}
+
+One approach could be as follows:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Let $\Delta$ be the uncertainty on the measurement value at all the
+  wavelengths, where the uncertainty is defined as 95\% confidence
+  interval.
+\item
+  Let $\eta$ be the noise
+\item
+  The the general model of n constituents is
+\end{itemize}
+
+$0 = \sum\limits_{i=1}^n\left[a_i(\lambda)\left[ \frac{b_b}{a}\right](\lambda) - b_{bi}(\lambda)  \right].x_i + a_w(\lambda)\left[\frac{b_b}{a}\right](\lambda) - b_{bw} $
+
+Let
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  $s_1 = \frac{b_b}{a}$
+\item
+  $s_2 = a_i [s_1] - b_{bi}$
+\item
+  $s_3 = a_w[s_1] - b_{bw}$
+\end{itemize}
+
+then
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  $\Delta s_1 = \frac{\Delta b_b}{b_b} + \frac{\Delta a}{a}$
+\item
+  $\Delta s_2 = \frac{\Delta a_i}{a_i} + \frac{\Delta s_1}{s_1} + \Delta b_{bi}$
+\item
+  $\Delta s_3 = \frac{\Delta a_w}{a_w} + \frac{\Delta s_1}{s_1} + \Delta_{bw}$
+\end{itemize}
+
+$\Delta \eta = \frac{\Delta s_2}{s_2} + \frac{\Delta s_3}{s_3}$
+
+\subsection{}\label{section-1}
+
+\subsection{Noise distribution}\label{noise-distribution}
+
+The noise is then estimated to be a normal distribution. $\Delta$ was
+previously defined as 95\% confidence interval which is
+\textasciitilde{}$2\sigma$ standard deviations of a normal distribution.
+Therefore the noise is estimated as
+
+$\epsilon = \frac{1}{\frac{\Delta \eta}{2}\sqrt{2 \pi }} e^{-\frac{(x - \mu)^2}{\Delta \eta^2}}$
+
+There are some caveats:
+
+\begin{itemize}
+\item
+  As $\phi, m, d, g$ are solved simultaneously, it can be defficult to
+  define $\Delta$ for $x_i$ above. One approach could be to assume
+  guassian noise on the IOPs and propate that through the model on the
+  first pass. Repeat this for a large training set of data and use the
+  covariance matrix from the model outputs to estimate the noise on
+  $x_i$. Make a second pass on the model with a new $\Delta x_i$ defined
+  from the covariance matrix.
+\item
+  Assuming the noise fits a guassian distibution is an assumption and
+  may or may not be correct. Further investigation in to the
+  distribution of noise needs to be conducted.
+\end{itemize}
+
+    \subsection{}\label{section}
+
+\subsection{Optical deconvolution of ACS
+measurements}\label{optical-deconvolution-of-acs-measurements}
+
+The following shows an attempt to use the bootstrap method to deconvolve
+the optical conststituents from ACS data obtained from Ligurian Sea
+March 2009.
+
+\subsection{}\label{section-1}
+
+\subsubsection{Data file}\label{data-file}
+
+The data used for the following test was made available by David McKee
+and contains the following data: * Station ID * Chl-a * Average
+Suspended Particulate Matter (SPM) * bbp(440) * CDOM(440) * Depth *
+Absroption (412 - 715)nm measured with an AC-9 * Scattering absroption
+(412 - 715)nm measured with an AC-9 ---- \#\#\# Modelling the noise
+
+Modelling the noise is difficult as very little data that descrbes the
+noise is available.
+
+\subsection{}\label{section-2}
+
+\paragraph{Assumptions}\label{assumptions}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  The noise is Gaussian
+\item
+  The noise applied to the SIOPs is uncorrelated
+\item
+  Each wavelength is an uncorrelated measurement with respect to other
+  wavelengths
+\item
+  Scattering fraction of b / bb is 0.2
+\end{itemize}
+
+\subsection{}\label{section-3}
+
+\paragraph{Method}\label{method}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  The SIOP data described in `Ligurian Sea SIOP spectra.csv' was
+  interpolated to the ACS spectral resolution.
+\item
+  The SIOPS were normalised to 440 nm for the absorption terms and 555
+  nm for the scattering terms.
+\item
+  For each SIOP the measured uncertainty at each wavelength is taken to
+  be 2 standard deviations of Gaussian noise for that measurement. The
+  simulted measurement noise ($\eta$) is applied to each SIOP. That is
+  to say
+\end{itemize}
+
+$0 = \sum\limits_{i=1}^n\left[ \left\{a_i(\lambda) + \eta_{ai}\right\}(\lambda)\left[ \frac{b_b}{a}\right](\lambda) - \left\{b_{bi}(\lambda) + \eta_{bi}(\lambda) \right\} \right].x_i + a_w(\lambda)\left[\frac{b_b}{a}\right](\lambda) - b_{bw} $
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  The measurements are replecated for each bootstrap, the noise
+  regenerated and applied
+\item
+  $[\phi, m, d, g]$ are solved by using least-squares regression
+\item
+  The measured Chl-a described in the in-situ measurements were
+  converted to $a_\phi(440)$ using the relation $a_\phi(440) = a[Chl]^b$
+  (Bricaud et. al., 1995) where a and b are usually emperically derived
+  constants specific to the area of interest. In this case initial
+  values used were 0.05 and 0.626 for $a$ and $b$ respectively and the
+  value of $a$ was varied until a value of 0.09 showed closest agreement
+  with modelled results.
+\end{itemize}
+
+\subsection{}\label{section-4}
+
+\subsubsection{Results}\label{results}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} \PY{k+kn}{import} \PY{n+nn}{scipy}
+         \PY{n}{scattering\PYZus{}fraction} \PY{o}{=} \PY{l+m+mf}{0.2}
+         \PY{n}{num\PYZus{}bootstraps} \PY{o}{=} \PY{l+m+mi}{4000}
+         \PY{n}{scale\PYZus{}noise} \PY{o}{=} \PY{l+m+mi}{1} \PY{c}{\PYZsh{} 1 == no scalling.}
+         \PY{n}{measurement\PYZus{}number} \PY{o}{=} \PY{l+m+mi}{0}
+         \PY{n}{x\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{p}{]} \PY{c}{\PYZsh{} list for storing outputs for plotting later}
+         \PY{n}{num\PYZus{}insitu\PYZus{}mesurements} \PY{o}{=} \PY{l+m+mi}{34}
+         
+         \PY{c}{\PYZsh{}==========}
+         \PY{c}{\PYZsh{} Read in Ligurian sea data file}
+         \PY{c}{\PYZsh{}==========}
+         \PY{n}{acs\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Ligurian\PYZus{}Constits\PYZus{}IOPS.csv}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{c}{\PYZsh{}==========}
+         \PY{c}{\PYZsh{} Redfine our IOPs }
+         \PY{c}{\PYZsh{}==========}
+         
+         \PY{c}{\PYZsh{} Interpolate all values to the ACS wavelengths}
+         \PY{n}{wavelength}  \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{412}\PY{p}{,} \PY{l+m+mi}{440}\PY{p}{,} \PY{l+m+mi}{488}\PY{p}{,} \PY{l+m+mi}{510}\PY{p}{,} \PY{l+m+mi}{532}\PY{p}{,} \PY{l+m+mi}{555}\PY{p}{,} \PY{l+m+mi}{650}\PY{p}{,} \PY{l+m+mi}{676}\PY{p}{,} \PY{l+m+mi}{715}\PY{p}{]}\PY{p}{)}
+         \PY{n}{a\PYZus{}phi} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{interp}\PY{p}{(}\PY{n}{wavelength}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{aph*Chl}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{n}{a\PYZus{}d} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{interp}\PY{p}{(}\PY{n}{wavelength}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{adet*Chl}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{n}{a\PYZus{}m} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{interp}\PY{p}{(}\PY{n}{wavelength}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{adet*MSS}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{n}{a\PYZus{}g} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{interp}\PY{p}{(}\PY{n}{wavelength}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{a*CDOM}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c}{\PYZsh{} Uncertainties for each waveslength of each IOP}
+         \PY{n}{da\PYZus{}phi} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{interp}\PY{p}{(}\PY{n}{wavelength}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI.1}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{n}{da\PYZus{}d} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{interp}\PY{p}{(}\PY{n}{wavelength}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI.2}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{n}{da\PYZus{}m} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{interp}\PY{p}{(}\PY{n}{wavelength}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI.3}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         \PY{n}{da\PYZus{}g} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{interp}\PY{p}{(}\PY{n}{wavelength}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+         
+         \PY{n}{db\PYZus{}phi} \PY{o}{=}  \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI.5}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{9}\PY{p}{]} \PY{c}{\PYZsh{} scipy.interp(wavelength,np.asarray(siops[\PYZsq{}wavelength\PYZsq{}]), np.asarray(siops[\PYZsq{}95\PYZpc{}CI.5\PYZsq{}]))}
+         \PY{n}{db\PYZus{}m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{95}\PY{l+s}{\PYZpc{}}\PY{l+s}{CI.6}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{9}\PY{p}{]} \PY{c}{\PYZsh{} scipy.interp(wavelength,np.asarray(siops[\PYZsq{}wavelength\PYZsq{}]), np.asarray(siops[\PYZsq{}95\PYZpc{}CI.6\PYZsq{}]))}
+         
+         \PY{n}{a\PYZus{}w} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.00469}\PY{p}{,} \PY{l+m+mf}{0.00635}\PY{p}{,} \PY{l+m+mf}{0.01454}\PY{p}{,} \PY{l+m+mf}{0.0325}\PY{p}{,} \PY{l+m+mf}{0.0442}\PY{p}{,} \PY{l+m+mf}{0.0592}\PY{p}{,} \PY{l+m+mf}{0.34}\PY{p}{,} \PY{l+m+mf}{0.4546}\PY{p}{,} \PY{l+m+mf}{1.029}\PY{p}{]}\PY{p}{)}
+         \PY{n}{bb\PYZus{}phi} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{bbp*Chl}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{9}\PY{p}{]}\PY{c}{\PYZsh{} scipy.interp(wavelength,np.asarray(siops[\PYZsq{}wavelength\PYZsq{}]), np.asarray(siops[\PYZsq{}bbp*Chl\PYZsq{}])) \PYZsh{} check thses}
+         \PY{n}{bb\PYZus{}m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{bbp*MSS}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{9}\PY{p}{]} \PY{c}{\PYZsh{}scipy.interp(wavelength,np.asarray(siops[\PYZsq{}wavelength.4\PYZsq{}]), np.asarray(siops[\PYZsq{}bbp*MSS\PYZsq{}]))}
+         \PY{n}{bb\PYZus{}g} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+         \PY{n}{bb\PYZus{}d} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+         \PY{n}{bb\PYZus{}w} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{0.00333}\PY{p}{,} \PY{l+m+mf}{0.00245}\PY{p}{,} \PY{l+m+mf}{0.00158}\PY{p}{,} \PY{l+m+mf}{0.0013}\PY{p}{,} \PY{l+m+mf}{0.00109}\PY{p}{,} \PY{l+m+mf}{0.000925}\PY{p}{,} \PY{l+m+mf}{0.0005}\PY{p}{,} \PY{l+m+mf}{0.00037}\PY{p}{,} \PY{l+m+mf}{0.000325}\PY{p}{]}\PY{p}{)}
+         
+         \PY{c}{\PYZsh{}==========}
+         \PY{c}{\PYZsh{} Normalise the values at 440 for a and 550 for b}
+         \PY{c}{\PYZsh{}==========}
+         \PY{n}{idx\PYZus{}440} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{wavelength}\PY{o}{==}\PY{l+m+mi}{440}\PY{p}{)}
+         \PY{n}{idx\PYZus{}555} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{wavelength}\PY{o}{==}\PY{l+m+mi}{555}\PY{p}{)}
+         
+         \PY{n}{a\PYZus{}phi} \PY{o}{=} \PY{n}{a\PYZus{}phi} \PY{o}{/} \PY{n}{a\PYZus{}phi}\PY{p}{[}\PY{n}{idx\PYZus{}440}\PY{p}{]}
+         \PY{n}{da\PYZus{}phi} \PY{o}{=} \PY{n}{da\PYZus{}phi} \PY{o}{/} \PY{n}{da\PYZus{}phi}\PY{p}{[}\PY{n}{idx\PYZus{}440}\PY{p}{]}
+         
+         \PY{n}{bb\PYZus{}m} \PY{o}{=} \PY{n}{bb\PYZus{}m} \PY{o}{/} \PY{n}{bb\PYZus{}m}\PY{p}{[}\PY{n}{idx\PYZus{}555}\PY{p}{]}
+         \PY{c}{\PYZsh{}y=0.5}
+         \PY{c}{\PYZsh{}bb\PYZus{}m = bb\PYZus{}m[idx\PYZus{}555]*(555/wavelength)**y}
+         
+         \PY{n}{a\PYZus{}g} \PY{o}{=} \PY{n}{a\PYZus{}g} \PY{o}{/} \PY{n}{a\PYZus{}g}\PY{p}{[}\PY{n}{idx\PYZus{}440}\PY{p}{]}
+         
+         \PY{c}{\PYZsh{}==========}
+         \PY{c}{\PYZsh{} Loop through the measurements}
+         \PY{c}{\PYZsh{}==========}
+         \PY{k}{for} \PY{n}{measurement\PYZus{}number} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{num\PYZus{}insitu\PYZus{}mesurements}\PY{p}{)}\PY{p}{:} \PY{c}{\PYZsh{} there are 33 measurements but should remove hardcoded values later}
+             \PY{n}{a} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{acs\PYZus{}data}\PY{o}{.}\PY{n}{ix}\PY{p}{[}\PY{n}{measurement\PYZus{}number}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{7}\PY{p}{:}\PY{l+m+mi}{16}\PY{p}{]}\PY{p}{)}
+             \PY{n}{bb} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{acs\PYZus{}data}\PY{o}{.}\PY{n}{ix}\PY{p}{[}\PY{n}{measurement\PYZus{}number}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{16}\PY{p}{:}\PY{l+m+mi}{25}\PY{p}{]} \PY{o}{*} \PY{n}{scattering\PYZus{}fraction}\PY{p}{)}
+         
+             \PY{c}{\PYZsh{}==========}
+             \PY{c}{\PYZsh{} The model }
+             \PY{c}{\PYZsh{}==========}
+             \PY{n}{rand\PYZus{}size} \PY{o}{=} \PY{n}{da\PYZus{}phi}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+             \PY{n}{Aa} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{wavelength}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+             \PY{n}{a\PYZus{}noise\PYZus{}vec} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{Aa}\PY{p}{)}
+         
+             \PY{n}{Aa}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{a\PYZus{}phi}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}+ (da\PYZus{}phi * scipy.randn(rand\PYZus{}size).T)}
+             \PY{n}{Aa}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{a\PYZus{}m}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}+ (da\PYZus{}m * scipy.randn(rand\PYZus{}size).T)}
+             \PY{n}{Aa}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{a\PYZus{}d}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}+ (da\PYZus{}d* scipy.randn(rand\PYZus{}size).T)}
+             \PY{n}{Aa}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{a\PYZus{}g}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}+ (da\PYZus{}g * scipy.randn(rand\PYZus{}size).T)}
+         
+             \PY{n}{Ab} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{wavelength}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+             \PY{n}{b\PYZus{}noise\PYZus{}vec} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{Ab}\PY{p}{)}
+             \PY{n}{Ab}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{bb\PYZus{}phi}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}+ (db\PYZus{}phi * scipy.randn(rand\PYZus{}size).T)}
+             \PY{n}{Ab}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{bb\PYZus{}m}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}+ (db\PYZus{}m * scipy.randn(rand\PYZus{}size).T)}
+             \PY{n}{Ab}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{bb\PYZus{}d}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}+ (db\PYZus{}d * scipy.randn(rand\PYZus{}size).T)}
+             \PY{n}{Ab}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{bb\PYZus{}g}\PY{o}{.}\PY{n}{T} \PY{c}{\PYZsh{}+ (db\PYZus{}g * scipy.randn(rand\PYZus{}size).T)}
+         
+             \PY{n}{A} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{Aa}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{n}{num\PYZus{}bootstraps}\PY{p}{,} \PY{n}{Aa}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+             \PY{n}{bb\PYZus{}over\PYZus{}a} \PY{o}{=} \PY{n+nb+bp}{None}
+         
+             \PY{n}{bb\PYZus{}over\PYZus{}a} \PY{o}{=} \PY{p}{(}\PY{n}{bb} \PY{o}{/} \PY{n}{a}\PY{p}{)}
+         
+             \PY{c}{\PYZsh{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZsh{}}
+             \PY{c}{\PYZsh{} Now we replicate the matricies and add the noise \PYZhy{}\PYZhy{} the slow way}
+             \PY{c}{\PYZsh{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZsh{}}
+             \PY{k}{for} \PY{n}{j\PYZus{}iter} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}bootstraps}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{a\PYZus{}noise\PYZus{}vec}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{da\PYZus{}phi} \PY{o}{*} \PY{n}{scipy}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{rand\PYZus{}size}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+                 \PY{n}{a\PYZus{}noise\PYZus{}vec}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{da\PYZus{}m} \PY{o}{*} \PY{n}{scipy}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{rand\PYZus{}size}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+                 \PY{n}{a\PYZus{}noise\PYZus{}vec}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{da\PYZus{}d} \PY{o}{*} \PY{n}{scipy}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{rand\PYZus{}size}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+                 \PY{n}{a\PYZus{}noise\PYZus{}vec}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{da\PYZus{}g} \PY{o}{*} \PY{n}{scipy}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{rand\PYZus{}size}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+         
+                 \PY{n}{a\PYZus{}noise\PYZus{}vec} \PY{o}{*}\PY{o}{=} \PY{n}{scale\PYZus{}noise}
+         
+                 \PY{n}{b\PYZus{}noise\PYZus{}vec}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{n}{db\PYZus{}phi} \PY{o}{*} \PY{n}{scipy}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{rand\PYZus{}size}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+                 \PY{n}{b\PYZus{}noise\PYZus{}vec}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{db\PYZus{}m} \PY{o}{*} \PY{n}{scipy}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{rand\PYZus{}size}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+                 \PY{n}{b\PYZus{}noise\PYZus{}vec}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{db\PYZus{}m}\PY{p}{)}
+                 \PY{n}{b\PYZus{}noise\PYZus{}vec}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{db\PYZus{}m}\PY{p}{)}
+         
+                 \PY{n}{b\PYZus{}noise\PYZus{}vec} \PY{o}{*}\PY{o}{=} \PY{n}{scale\PYZus{}noise}
+         
+                 \PY{k}{for} \PY{n}{i\PYZus{}iter} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{Aa}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{:}        
+                     \PY{n}{A}\PY{p}{[}\PY{n}{j\PYZus{}iter} \PY{o}{*} \PY{n}{wavelength}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{p}{:} \PY{n}{wavelength}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{n}{j\PYZus{}iter} \PY{o}{*} \PY{n}{wavelength}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{i\PYZus{}iter}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{p}{(}\PY{n}{Aa}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i\PYZus{}iter}\PY{p}{]} \PY{o}{+} \PY{n}{a\PYZus{}noise\PYZus{}vec}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{bb\PYZus{}over\PYZus{}a}\PY{p}{[}\PY{p}{:}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{p}{(}\PY{n}{Ab}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i\PYZus{}iter}\PY{p}{]} \PY{o}{+} \PY{n}{b\PYZus{}noise\PYZus{}vec}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{c}{\PYZsh{}* scale[i\PYZus{}iter]}
+         
+         
+             \PY{n}{b} \PY{o}{=} \PY{p}{(}\PY{n}{scipy}\PY{o}{.}\PY{n}{squeeze}\PY{p}{(}\PY{n}{a\PYZus{}w}\PY{o}{.}\PY{n}{T}\PY{p}{)} \PY{o}{*} \PY{n}{bb\PYZus{}over\PYZus{}a} \PY{o}{\PYZhy{}} \PY{n}{scipy}\PY{o}{.}\PY{n}{squeeze}\PY{p}{(}\PY{n}{bb\PYZus{}w}\PY{o}{.}\PY{n}{T}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}
+             \PY{n}{b} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{tile}\PY{p}{(}\PY{n}{b}\PY{p}{,} \PY{p}{(}\PY{n}{num\PYZus{}bootstraps}\PY{p}{)}\PY{p}{)}
+         
+             \PY{n}{x} \PY{o}{=} \PY{n}{scipy}\PY{o}{.}\PY{n}{sparse}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{lsqr}\PY{p}{(}\PY{n}{A}\PY{p}{,} \PY{n}{b}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+             \PY{n}{x\PYZus{}list}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+         
+         \PY{c}{\PYZsh{}==========}
+         \PY{c}{\PYZsh{} Plot measured vs inverted}
+         \PY{c}{\PYZsh{}==========}
+         \PY{n}{pylab}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{figure.figsize}\PY{l+s}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}
+         \PY{n}{matplotlib}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{savefig.dpi}\PY{l+s}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{200}
+         \PY{n}{wavelength} \PY{o}{=} \PY{n}{siops}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{wavelength}\PY{l+s}{\PYZsq{}}\PY{p}{]}
+         \PY{n}{props} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}\PY{n}{boxstyle}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{round}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{wheat}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+         
+         \PY{n}{f}\PY{p}{,} \PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{,} \PY{n}{ax3}\PY{p}{)} \PY{o}{=} \PY{n}{pylab}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}  \PY{c}{\PYZsh{} subplot\PYZus{}kw=dict(aspect=\PYZsq{}equal\PYZsq{})}
+         \PY{c}{\PYZsh{}f.subplots\PYZus{}adjust(hspace=0.1)}
+         
+         \PY{c}{\PYZsh{}==========}
+         \PY{c}{\PYZsh{} a\PYZus{}phi(440) \PYZti{} a*[Chl]**b}
+         \PY{c}{\PYZsh{}==========}
+         \PY{n}{a} \PY{o}{=} \PY{l+m+mf}{0.09}
+         \PY{n}{b} \PY{o}{=} \PY{l+m+mf}{0.626}
+         
+         \PY{n}{x\PYZus{}array} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{x\PYZus{}list}\PY{p}{)}
+         
+         \PY{c}{\PYZsh{}==========}
+         \PY{c}{\PYZsh{} Find the Mean Squared Error}
+         \PY{c}{\PYZsh{}==========}
+         \PY{n}{mse\PYZus{}phi} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{a}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{acs\PYZus{}data}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{Chl\PYZhy{}a 1}\PY{l+s}{\PYZsq{}}\PY{p}{]}\PY{o}{*}\PY{o}{*}\PY{n}{b} \PY{o}{\PYZhy{}} \PY{n}{x\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{mse\PYZus{}m} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{acs\PYZus{}data}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{AveSPM}\PY{l+s}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{x\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{mse\PYZus{}g} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{acs\PYZus{}data}\PY{p}{[}\PY{l+s}{\PYZsq{}}\PY{l+s}{aCDOM\PYZus{}440}\PY{l+s}{\PYZsq{}}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{x\PYZus{}array}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}
+         
+         \PY{k}{for} \PY{n}{i\PYZus{}iter} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{num\PYZus{}insitu\PYZus{}mesurements}\PY{p}{)}\PY{p}{:}
+             \PY{n}{iop} \PY{o}{=} \PY{n}{acs\PYZus{}data}\PY{o}{.}\PY{n}{ix}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{]}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{a}\PY{o}{*}\PY{n}{iop}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{o}{*}\PY{n}{b}\PY{p}{,} \PY{n}{x\PYZus{}list}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{bo}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.3}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{0.3}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{k\PYZhy{}\PYZhy{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Measured \PYZdl{}a\PYZus{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{phi(440)\PYZdl{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Modelled \PYZdl{}}\PY{l+s}{\PYZbs{}}\PY{l+s}{phi\PYZdl{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{ax1}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.95}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{Mean Squared Error = }\PY{l+s+si}{\PYZpc{}.4f}\PY{l+s}{\PYZsq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{mse\PYZus{}phi}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{transform}\PY{o}{=}\PY{n}{ax1}\PY{o}{.}\PY{n}{transAxes}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{top}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{bbox}\PY{o}{=}\PY{n}{props}\PY{p}{)}
+             
+             
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{iop}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}list}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{bo}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Measured SPM}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Modelled m}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{k\PYZhy{}\PYZhy{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+             \PY{n}{ax2}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.95}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{Mean Squared Error = }\PY{l+s+si}{\PYZpc{}.4f}\PY{l+s}{\PYZsq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{mse\PYZus{}m}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{transform}\PY{o}{=}\PY{n}{ax2}\PY{o}{.}\PY{n}{transAxes}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{top}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{bbox}\PY{o}{=}\PY{n}{props}\PY{p}{)}
+             
+             \PY{c}{\PYZsh{}ax3.plot(iop[2], x\PYZus{}list[i\PYZus{}iter][2], \PYZsq{}ko\PYZsq{}, alpha=0.5)}
+             \PY{c}{\PYZsh{}ax2.set\PYZus{}ylabel(\PYZsq{}Measured \PYZdl{}b\PYZus{}\PYZob{}bp\PYZcb{}(440)\PYZdl{}\PYZsq{})}
+             \PY{c}{\PYZsh{}ax2.set\PYZus{}xlabel(\PYZsq{}Modelled m\PYZsq{})}
+             
+             \PY{n}{ax3}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{iop}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}list}\PY{p}{[}\PY{n}{i\PYZus{}iter}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{bo}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+             \PY{n}{ax3}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Measured \PYZdl{}a\PYZus{}\PYZob{}CDOM\PYZcb{}(440)\PYZdl{}}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{ax3}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{Modelled g}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{ax3}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{l+m+mf}{0.05}\PY{p}{,} \PY{l+m+mf}{0.95}\PY{p}{,} \PY{l+s}{\PYZsq{}}\PY{l+s}{Mean Squared Error = }\PY{l+s+si}{\PYZpc{}.4f}\PY{l+s}{\PYZsq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{mse\PYZus{}g}\PY{p}{)}\PY{p}{,}
+                  \PY{n}{transform}\PY{o}{=}\PY{n}{ax3}\PY{o}{.}\PY{n}{transAxes}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s}{\PYZsq{}}\PY{l+s}{top}\PY{l+s}{\PYZsq{}}\PY{p}{,} \PY{n}{bbox}\PY{o}{=}\PY{n}{props}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{bootstrap_test_files/bootstrap_test_28_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsection{}\label{section}
+
+\subsection{Conclusions}\label{conclusions}
+
+\begin{itemize}
+\item
+  $a_d$ and $a_g$ are not linearly seperable and therefore cannot be
+  solved using the bootstrap method.
+\item
+  Applying the bootstrap method to radiometry is a step too far at this
+  point in time
+\item
+  Comparing $a_{\phi}$(440) with Chl-a is difficult and the values of
+  $a$ and $b$ should be tuned using in-situ measurements rather than
+  making the model fit the inversion.
+\item
+  $b_{bp}$ SIOP profile doesn't look correct. It does not fit the
+  familiar $b_{bm} = b_{bm}(555)(\frac{555}{\lambda})^y$
+\item
+  The relative uncertainty on the scattering SIOPs is very large.
+\item
+  In the simulated test, increasing the noise increased the residual
+  faster than it increased the variance.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}}]:} 
+\end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
