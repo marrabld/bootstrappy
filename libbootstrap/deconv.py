@@ -390,26 +390,25 @@ class OpticalModel():
                                                  '../inputs/iop_files/a.csv',
                                                  '../inputs/iop_files/b_water.csv',
                                                  '../inputs/iop_files/a_water.csv',
-                                                 '../inputs/iop_files/rrs.csv',
                                                  '../inputs/iop_files/a_phi.csv',
                                                  '../inputs/iop_files/bbm.csv',
                                                  '../inputs/iop_files/bbd.csv',
                                                  '../inputs/iop_files/am.csv',
                                                  '../inputs/iop_files/ad.csv',
                                                  '../inputs/iop_files/ag.csv',
-                                                 '../inputs/iop_files/b_bphi.csv']):
+                                                 '../inputs/iop_files/b_bphi.csv']):  #                                                 '../inputs/iop_files/rrs.csv',
         self.read_bb_from_file(filename=filelist[0])
         self.read_a_from_file(filename=filelist[1])
         self.read_bw_from_file(filename=filelist[2])
         self.read_aw_from_file(filename=filelist[3])
-        self.read_rrs_from_file(filename=filelist[4])
-        self.read_aphi_from_file(filename=filelist[5])
-        self.read_bbm_from_file(filename=filelist[6])
-        self.read_bbd_from_file(filename=filelist[7])
-        self.read_am_from_file(filename=filelist[8])
-        self.read_ad_from_file(filename=filelist[9])
-        self.read_ag_from_file(filename=filelist[10])
-        self.read_bbphi_from_file(filename=filelist[11])
+        #self.read_rrs_from_file(filename=filelist[4])
+        self.read_aphi_from_file(filename=filelist[4])
+        self.read_bbm_from_file(filename=filelist[5])
+        self.read_bbd_from_file(filename=filelist[6])
+        self.read_am_from_file(filename=filelist[7])
+        self.read_ad_from_file(filename=filelist[8])
+        self.read_ag_from_file(filename=filelist[9])
+        self.read_bbphi_from_file(filename=filelist[10])
 
     def func(self, params):
         phi = params[0]
@@ -433,6 +432,7 @@ class OpticalModel():
 
     def solve_opt_func(self, ydata, **kwargs):
         opt_data = scipy.zeros((ydata.shape[0], 4))
+        res_data = scipy.zeros((ydata.shape[0]))
         # phi = kwargs.get('phi', 0.01)
         # m = kwargs.get('m', 0.01)
         # d = kwargs.get('d', 0.01)
@@ -443,7 +443,8 @@ class OpticalModel():
         for i_iter in range(0, ydata.shape[0]):
             #opt_data[i_iter, :], cov_x = scipy.optimize.leastsq(self.opt_func, P0, args=ydata[i_iter, :], full_output=0)
             #_args = tuple(map(tuple, ydata[i_iter, :]))
-            _args = tuple([tuple(row) for row in ydata])
+            #_args = tuple([tuple(row) for row in ydata])
+            _args = tuple(ydata[i_iter, :])
             #opt_data[i_iter, :], cov_x = scipy.optimize.minimize(self.opt_func, P0, args=_args)
             #opt_data = scipy.optimize.minimize(self.opt_func, P0, args=_args, method='Nelder-Mead')
             #opt_data = scipy.optimize.minimize(self.opt_func, P0, args=_args, method='Powell')
@@ -456,11 +457,17 @@ class OpticalModel():
             #opt_data = scipy.optimize.minimize(self.opt_func, P0, args=_args, method='dogleg') # jac required
             #opt_data = scipy.optimize.minimize(self.opt_func, P0, args=_args, method='trust-ncg') # jac required
 
-            opt_data = scipy.optimize.brute(self.opt_func, ranges=((0., 0.1), (0., 1.), (0., 0.2), (0., 0.2)), Ns=10,
+            lg.debug('optimising row :: ' + str(i_iter))
+
+            tmp = scipy.optimize.brute(self.opt_func, ranges=((0., 0.1), (0., 1.), (0., 1), (0., 1)), Ns=10,
                                             full_output=True, args=_args, finish=scipy.optimize.fmin)
             #opt_data = scipy.optimize.brute(self.opt_func, ranges=((0.5, 2.), (0.5, 2.), (0.5, 2.), (0.5, 2.)), Ns=16, full_output=True, args=_args, finish=None)
 
-        return opt_data
+            opt_data[i_iter, :] = tmp[0]
+            res_data[i_iter] = tmp[1]
+
+
+        return opt_data, res_data
 
     def run(self, outputfile='results.csv', **kwargs):
         # --------------------------------------------------#
@@ -481,32 +488,23 @@ class OpticalModel():
         self.read_bw_from_file(b_water_file)
         a_water_file = os.path.abspath(os.path.join(this_dir, '../inputs/iop_files', 'a_water.csv'))
         self.read_aw_from_file(a_water_file)
-        rrs_file = os.path.abspath(os.path.join(this_dir, '../inputs/iop_files', 'rrs.csv'))
-        self.read_rrs_from_file(rrs_file)
+        #rrs_file = os.path.abspath(os.path.join(this_dir, '../inputs/iop_files', 'rrs.csv'))
+        #self.read_rrs_from_file(rrs_file)
 
-        num_iters = kwargs.get('num_iters', 10)
-        noise_magnitude = kwargs.get('noise_magnitude', 0.005)
+        num_iters = kwargs.get('num_iters', 1)
+        #noise_magnitude = kwargs.get('noise_magnitude', 0.005)
 
-        for i_iter in range(0, num_iters):
-            self.noise = scipy.random.normal(0, noise_magnitude, self.rrs.shape[1])
-            data = self.solve_opt_func(self.rrs, **kwargs)
+        #for i_iter in range(0, self.rrs.shape[0]):
+            #self.noise = scipy.random.normal(0, noise_magnitude, self.rrs.shape[1])
+        data, res_data = self.solve_opt_func(self.rrs, **kwargs)
 
-        data_list.append(data)
-        residual_list.append(data[1])
-        idx = residual_list.index(min(residual_list))
+        #data_list.append(data)
+        #residual_list.append(data[1])
+        idx = scipy.argmin(res_data)
 
-        #--------------------------------------------------#
-        # Do a forward model with the inverted parameters
-        #--------------------------------------------------#
 
-        # data.tofile(outputfile)
-        #
-        # with open(outputfile, 'w') as fp:
-        #     file_writer = csv.writer(fp, delimiter=',')
-        #     for row in data:
-        #         file_writer.writerow(row)
 
-        return data_list[idx]
+        return data[idx, :]  # todo return the std as well
 
 
 class McKeeModel(OpticalModel):
@@ -544,14 +542,14 @@ class McKeeModelCase2(OpticalModel):
         Bb = (phi * self.b_bphi + m * self.b_bm + d * self.b_bd + self.b_bw)
         A = (phi * self.a_phi + m * self.a_m + d * self.a_d + g * self.a_g + self.aw)
 
-        rrs = Bb / (A + Bb) + self.noise
-        # Rrs = (0.5 * rrs) / (1 - 1.5 * rrs)
+        rrs = Bb / (A + Bb)
+        Rrs = (0.5 * rrs) / (1 - (1.5 * rrs))
 
-        return scipy.squeeze(rrs)
+        return scipy.squeeze(Rrs)
 
 
     def opt_func(self, args, *params):
-        ydata = params[0]
+        ydata = params
         return_vals = self.func(args)
         res = scipy.squeeze(ydata - return_vals)
         return (res ** 2).sum()

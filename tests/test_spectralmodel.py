@@ -2,6 +2,7 @@ __author__ = 'marrabld'
 
 import sys
 import pylab
+import numpy as np
 
 sys.path.append('../..')
 
@@ -30,9 +31,12 @@ Y = sg._calc_rand_powerspectrum()
 y = sg._calc_inv_rand_powerspectrum()
 y_hat = sg._calc_normalised_difference_inv_rand_powerspectrum()
 z = sg._calc_z()
-Rrs = sg.gen_Rrs()
+Rrs = sg.gen_Rrs(sm.Rrs[0,:])
 
-pylab.plot(Rrs)
+np.savetxt('/home/marrabld/Projects/phd/bootstrappy/outputs/Rrs.csv', np.vstack((sm.wave, np.real(Rrs))), delimiter=',')
+
+for row in Rrs:
+    pylab.plot(sm.wave, row)
 pylab.show()
 
 print('OK')

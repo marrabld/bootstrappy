@@ -48,7 +48,7 @@ class setUp(unittest.TestCase):
     # --------------------------------------------------#
     # We model an Rrs for the test
     # --------------------------------------------------#
-    rrs_file = '../inputs/iop_files/hope_rrs.csv'
+    rrs_file = '../inputs/iop_files/Rrs.csv'
     #rrs = dc.bio_optical_parameters.bb / (dc.bio_optical_parameters.a + dc.bio_optical_parameters.bb)
     #dc.bio_optical_parameters.write_iop_to_file(wavelengths, rrs, rrs_file)
 
@@ -59,14 +59,14 @@ class setUp(unittest.TestCase):
     dc.read_rrs_from_file(rrs_file)
     dc.read_all_iops_from_files()
 
-    data = dc.run(num_iters=50)
+    data = dc.run(num_iters=1)
     #print(iops['x'])
-    print(data[0])
-    print(data[1])
+    print(data)
+    print(data)
     #print(data[2])
     #print(data[3])
 
-    check = dc.func(data[0])
+    check = dc.func(data)
     import pylab
 
     pylab.plot(check, '*')
