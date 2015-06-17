@@ -31,7 +31,7 @@ Y = sg._calc_rand_powerspectrum()
 y = sg._calc_inv_rand_powerspectrum()
 y_hat = sg._calc_normalised_difference_inv_rand_powerspectrum()
 z = sg._calc_z()
-Rrs = sg.gen_Rrs(sm.Rrs[0,:])
+Rrs = sg.gen_Rrs(sm.Rrs[0, :])
 
 np.savetxt('/home/marrabld/Projects/phd/bootstrappy/outputs/Rrs.csv', np.vstack((sm.wave, np.real(Rrs))), delimiter=',')
 

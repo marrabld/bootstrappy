@@ -221,11 +221,11 @@ class BioOpticalParameters():
 
         return self.a_water
 
-    def read_pure_water_scattering_from_file(self, file_name, scattering_factor=0.2):
+    def read_pure_water_scattering_from_file(self, file_name, scattering_factor=0.02):
         """
 
         """
-        lg.info('Reading water scattering from file')
+        lg.info('Reading water scattering from file and multipy by ' + str(scattering_factor))
         try:
             self.b_bwater = self._read_iop_from_file(file_name) * scattering_factor
         except:
@@ -308,7 +308,7 @@ class BioOpticalParameters():
 
     def build_bb(self):
         lg.info('Building bb spectra')
-        self.b_b = self.b_bphi + self.b_bm + self.b_bd + (self.b_bwater)
+        self.b_b = self.b_bphi + self.b_bm + self.b_bd + self.b_bwater
         #self.b_b = self.b_b * 0.2
         #phi * self.bb_phi + m * self.bb_m + d * self.bb_d + self.bw
 
@@ -357,7 +357,7 @@ class OpticalModel():
         self.a = self.bio_optical_parameters.read_a_from_file(filename)
 
     def read_bw_from_file(self, filename='../inputs/iop_files/b_water.csv'):
-        self.b_bw = self.bio_optical_parameters.read_pure_water_scattering_from_file(filename)
+        self.b_bw = self.bio_optical_parameters.read_pure_water_scattering_from_file(filename) * 0.5
 
     def read_aw_from_file(self, filename='../inputs/iop_files/a_water.csv'):
         self.aw = self.bio_optical_parameters.read_pure_water_absorption_from_file(filename)
@@ -437,6 +437,7 @@ class OpticalModel():
         # m = kwargs.get('m', 0.01)
         # d = kwargs.get('d', 0.01)
         # g = kwargs.get('g', 0.1)
+        finish_opt = kwargs.get('finish_opt', True)
 
         # P0 = [phi, m, d, g]
 
@@ -457,11 +458,12 @@ class OpticalModel():
             #opt_data = scipy.optimize.minimize(self.opt_func, P0, args=_args, method='dogleg') # jac required
             #opt_data = scipy.optimize.minimize(self.opt_func, P0, args=_args, method='trust-ncg') # jac required
 
-            lg.debug('optimising row :: ' + str(i_iter))
+            #lg.debug('optimising row :: ' + str(i_iter))
 
-            tmp = scipy.optimize.brute(self.opt_func, ranges=((0., 0.1), (0., 1.), (0., 1), (0., 1)), Ns=10,
-                                            full_output=True, args=_args, finish=scipy.optimize.fmin)
-            #opt_data = scipy.optimize.brute(self.opt_func, ranges=((0.5, 2.), (0.5, 2.), (0.5, 2.), (0.5, 2.)), Ns=16, full_output=True, args=_args, finish=None)
+            if finish_opt:
+                tmp = scipy.optimize.brute(self.opt_func, ranges=((0., 1.), (0., 1.), (0., 1.), (0., 1.)), Ns=5, full_output=True, args=_args, finish=scipy.optimize.fmin)
+            else:
+                tmp = scipy.optimize.brute(self.opt_func, ranges=((0., 1.), (0., 1.), (0., 1.), (0., 1.)), Ns=5, full_output=True, args=_args, finish=None)
 
             opt_data[i_iter, :] = tmp[0]
             res_data[i_iter] = tmp[1]
@@ -504,7 +506,7 @@ class OpticalModel():
 
 
 
-        return data[idx, :]  # todo return the std as well
+        return data[idx, :], scipy.std(data, 0), data  # todo return the std as well
 
 
 class McKeeModel(OpticalModel):
@@ -543,7 +545,7 @@ class McKeeModelCase2(OpticalModel):
         A = (phi * self.a_phi + m * self.a_m + d * self.a_d + g * self.a_g + self.aw)
 
         rrs = Bb / (A + Bb)
-        Rrs = (0.5 * rrs) / (1 - (1.5 * rrs))
+        Rrs = (0.5 * rrs) / (1. - (1.5 * rrs))
 
         return scipy.squeeze(Rrs)
 
@@ -566,26 +568,115 @@ class BCDeep(OpticalModel):
         G1_w = 0.0524
         G0_p = 0.0434
         G1_p = 0.1406
+        y = 1.0
+        s = 0.014
 
         phi = params[0]
         m = params[1]
         d = params[2]
         g = params[3]
 
-        Bb = (phi * self.bb_phi + m * self.bb_m + d * self.bb_d + self.bw)
-        A = (phi * self.a_phi + m * self.a_m + d * self.a_d + g * self.a_g + self.aw)
+        b_bp = m * (400.0 / self.bio_optical_parameters.wavelengths) ** y
+        a_cdom = g * scipy.exp(-s * (self.bio_optical_parameters.wavelengths - 440.0))
+
+        #Bb = (phi * self.b_bphi + m * self.b_bm + d * self.b_bd + self.b_bw)
+        Bb = (b_bp + self.b_bw)
+        A = (phi * self.a_phi + a_cdom + self.aw)
 
         k = A + Bb
 
-        Rrs = (G0_w + G1_w * (self.bw / k)) * self.bw / k + (G0_p + G1_p * (self.bb_m / k)) * (self.bb_m / k)
+        Rrs = (G0_w + G1_w * (self.b_bw / k)) * self.b_bw / k + (G0_p + G1_p * (self.b_bm / k)) * (self.b_bm / k)
 
         return scipy.squeeze(Rrs)
 
 
-    def opt_func(self, params, ydata):
-        return_vals = self.func(params)
+    def opt_func(self, args, *params):
+        ydata = params
+        return_vals = self.func(args)
+        res = scipy.squeeze(ydata - return_vals)
+        return (res ** 2).sum()
 
-        return scipy.squeeze(ydata - return_vals)  # Residual
+class HopeDeep(OpticalModel):
+    def __init__(self, wavelengths):
+        OpticalModel.__init__(self, wavelengths)
 
+    def func(self, params):
+        g0 = 0.084
+        g1 = 0.17
+        #g0 = 0.0949
+        #g1 = 0.0794
+        y = 1.0
+        s = 0.014
+
+        phi = params[0]
+        m = params[1]
+        d = params[2]
+        g = params[3]
+
+        b_bp = m * (400.0 / self.bio_optical_parameters.wavelengths) ** y
+        a_cdom = g * scipy.exp(-s * (self.bio_optical_parameters.wavelengths - 440.0))
+
+        b_b = (b_bp + self.b_bw)
+        a = (phi * self.a_phi + a_cdom + self.aw)
+
+        u = b_b / (a + b_b)
+        r_rs_dp = (g0 + g1 * u) * u
+
+        Rrs = 0.5 * r_rs_dp / (1.0 - 1.5 * r_rs_dp)
+        #Rrs = 0.5 * r_rs_dp / (0.52 + 1.7 * r_rs_dp)
+
+        return scipy.squeeze(Rrs)
+
+
+    def opt_func(self, args, *params):
+        ydata = params
+        return_vals = self.func(args)
+        res = scipy.squeeze(ydata - return_vals)
+        return (res ** 2).sum()
+
+class QAA(OpticalModel):
+    def __init__(self, wavelengths):
+        OpticalModel.__init__(self, wavelengths)
+
+    def func(self, dummy=0):
+        g0 = 0.0949
+        g1 = 0.0794
+
+
+        idx_410 = abs(self.bio_optical_parameters.wavelengths - 410.0).argmin()
+        idx_440 = abs(self.bio_optical_parameters.wavelengths - 440.0).argmin()
+        idx_555 = abs(self.bio_optical_parameters.wavelengths - 555.0).argmin()
+
+        rrs = scipy.squeeze(self.rrs / (0.52 + 1.7 * self.rrs))
+        u = -g0 + (g0 ** 2 + 4.0 * g1 * rrs) ** 0.5 / (2 * g1)
+        p = scipy.log(rrs[idx_440] / rrs[idx_555])
+        a_440 = scipy.exp(-2.0 - 1.4 * p + 0.2 * p ** 2)
+        a_555 = 0.0596 + 0.2 * (a_440 - 0.01)
+        b_bp_555 = (u[idx_555] * a_555) / (1 - u[idx_555]) - scipy.squeeze(self.b_bw)[idx_555]
+        y = 2.2 * (1 - 1.2 * scipy.exp(-0.9 * ((rrs[idx_440]) / (rrs[idx_555]))))
+        b_bp = b_bp_555 * (555.0 / self.bio_optical_parameters.wavelengths) ** y
+        a = (1 - u) * (self.b_bw + b_bp) / (u)
+        gamma = 0.71 + 0.06 / (0.8 + (rrs[idx_440] / rrs[idx_555]))
+        epsilon = scipy.exp(0.015 * (440.0 - 410.0))
+        a_g_440 = ((scipy.squeeze(a)[idx_410]) / (epsilon - gamma)) - ((scipy.squeeze(self.aw)[idx_410] - gamma * scipy.squeeze(self.aw)[idx_410]) / (epsilon - gamma))
+        a_phi_440 = a_440 - a_g_440 - scipy.squeeze(self.aw)[idx_440]
+
+        return [a_phi_440, b_bp_555, 0.0, a_g_440]
+
+
+    def opt_func(self, args, *params):
+        ydata = params
+        return_vals = self.func(args)
+        res = scipy.squeeze(ydata - return_vals)
+        return (res ** 2).sum()
+
+    def run(self, outputfile='results.csv', **kwargs):
+        """
+
+        :param outputfile:
+        :param kwargs:
+        :return:
+        """
+        return self.func()
 
 

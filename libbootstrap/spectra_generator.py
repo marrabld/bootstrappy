@@ -47,7 +47,8 @@ class GenerateRealisation():
         length = self._sm.Syy.shape[0]
 
         for i_iter in range(0, num_gens):
-            rand_nums.append(np.random.uniform(0, 1, length))
+            rand_nums.append(np.random.uniform(-0.5, 0.5, length))
+            #rand_nums.append(np.random.normal(0, 0.1, length))
 
         self.rand_nums = np.asarray(rand_nums, float)
 
